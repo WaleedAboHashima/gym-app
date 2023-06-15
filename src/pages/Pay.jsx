@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { BsPaypal } from "react-icons/bs"
 import {SiVisa,SiMastercard} from "react-icons/si"
-const Pay = ({clubData}) => {
+const Pay = () => {
     const { id } = useParams()
     const [price,setPrice] = useState()
   return (

@@ -1,21 +1,28 @@
 import React,{useEffect, useState} from 'react'
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import logo from "../imgs/Logo.png"
 import {AiOutlineClose} from "react-icons/ai"
 const Navbar = ({bar,setBar}) => {
   const [active, setActive] = useState("")
   const [activeBar, setActiveBar] = useState("")
+  const navigator = useNavigate();
 
-  useEffect(() => {
-  if (window.location.pathname === "/auth/login") setActive("login")
+  const checkActive = () => {
+    if (window.location.pathname === "/auth/login") setActive("login")
     else if (window.location.pathname === "/auth/reg") setActive("reg")
     else if (window.location.pathname === "/") setActiveBar("home")
     else if (window.location.pathname === "/clubs") setActiveBar("clubs")
     else if (window.location.pathname==="/about_us") setActiveBar("aboutUs")
     else if (window.location.pathname==="/contact_us") setActiveBar("contactUs")
     else setActive("") && setActiveBar("")
-    console.log(activeBar)
-  },[])
+  }
+
+
+  useEffect(() => {
+    checkActive();
+  } , [])
+
+
   return (
     <>
       {active ?
@@ -34,10 +41,10 @@ const Navbar = ({bar,setBar}) => {
         <div className='hidden md:flex justify-between items-center p-3 h-18 pt-8'>
           <span className='text-2xl ml-3 cursor-pointer hover:text-gray-500 text-white bg-black rounded-md px-5 py-2'onClick={() => window.location.pathname="/auth/reg"}>انضم لنا</span>
           <ul className='flex gap-x-10 flex-col sm:flex-row'>
-            <li className='cursor-pointer text-2xl text-gray-500 hover:text-black' id={activeBar==="contactUs" ? "activeNav":undefined}  onClick={() => window.location.pathname="/contact_us"}>تواصل معنا</li>
-            <li className='cursor-pointer  text-2xl text-gray-500 hover:text-black' id={activeBar==="aboutUs" ? "activeNav":undefined}  onClick={() => window.location.pathname="/about_us"}>نبذه عنا</li>
-            <li className='cursor-pointer  text-2xl text-gray-500 hover:text-black' id={activeBar==="clubs" ? "activeNav":undefined} onClick={() => window.location.pathname="/clubs"}>جميع النوادي</li>
-            <li className='cursor-pointer  text-2xl text-gray-500 hover:text-black' id={activeBar==="home" ? "activeNav":undefined} onClick={() => window.location.pathname="/"}>الرئيسيه</li>
+            <li className='cursor-pointer text-2xl text-gray-500 hover:text-black' id={activeBar==="contactUs" ? "activeNav":undefined}  onClick={() => {navigator("/contact_us"); checkActive()}}>تواصل معنا</li>
+            <li className='cursor-pointer  text-2xl text-gray-500 hover:text-black' id={activeBar==="aboutUs" ? "activeNav":undefined}  onClick={() => {navigator("/about_us"); checkActive()}}>نبذه عنا</li>
+            <li className='cursor-pointer  text-2xl text-gray-500 hover:text-black' id={activeBar==="clubs" ? "activeNav":undefined} onClick={() => {navigator("/clubs"); checkActive()}}>جميع النوادي</li>
+            <li className='cursor-pointer  text-2xl text-gray-500 hover:text-black' id={activeBar==="home" ? "activeNav":undefined} onClick={() => {navigator("/"); checkActive()}}>الرئيسيه</li>
           </ul>
           <div ><img src={logo} alt="logo" className='w-50 h-11 cursor-pointer' onClick={() => window.location.pathname="/"}/></div>
           </div>
