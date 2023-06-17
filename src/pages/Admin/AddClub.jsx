@@ -1,76 +1,51 @@
-import React, { useEffect, useState } from "react";
-import Sidebar from "../../components/Sidebar";
-import mapboxgl from "mapbox-gl/dist/mapbox-gl";
-import MapboxWorker from "mapbox-gl/dist/mapbox-gl-csp-worker";
+import React, { useEffect, useRef, useState,useMemo } from "react";
+import Sidebar from "../../components/AdminSidebar";
 import "mapbox-gl/dist/mapbox-gl.css";
+import { AiOutlineClose } from "react-icons/ai"
+import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+
 const AddClub = () => {
-  const [map, setMap] = useState(null);
-  const [selection, setSelection] = useState(null);
-  const [marker, setMarker] = useState(null);
-  mapboxgl.workrClass = MapboxWorker;
-
-  const handleMapClick = (e, newMap) => {
-    console.log(e)
-    setSelection({ lat: e.lngLat.lat, lng: e.lngLat.lng });
-    const checkInMarker = new mapboxgl.Marker()
-      .setLngLat([e.lngLat.lng, e.lngLat.lat])
-      .addTo(newMap);
-  };
-
-  const handleMapLoad = (newMap) => {
-    if (selection) {
-      newMap.setCenter([selection.lng, selection.lat]);
-      const checkInMarker = new mapboxgl.Marker()
-        .setLngLat([selection.lng, selection.lat])
-        .addTo(newMap);
-    } else {
-      newMap.setCenter([31.17931, 30.46616]);
+  const [cuurentLocation, setCurrentLocation] = useState({lat:0,long:0});
+  const [selection, setSelection] = useState({lat:null,long:null});
+  const [imgs, setImgs] = useState([])
+  const imgfiles = useRef()
+  const handleImgChange = (imgs) => {
+    let fileNames=[]
+    for (let i = 0; i < imgs.length; i++) {
+    const file = imgs[i];
+    fileNames.push(file.name);
     }
-  };
-
-  const handleMap = () => {
-    mapboxgl.accessToken =
-      "pk.eyJ1Ijoia3VzaGlybzIiLCJhIjoiY2xpdWY2aHN2MGk3NjNobXlpY3l1aTlyZCJ9.sqUTG9jXnKN1uTZRFZPuBg";
-    const newMap = new mapboxgl.Map({
-      container: "map",
-      style: "mapbox://styles/kushiro2/cliwz039n016h01pfbfa18ltk",
-      zoom: 16,
-    });
-    newMap.on("click", (e) => handleMapClick(e, newMap));
-    newMap.on("load", () => handleMapLoad(newMap));
-
-    setMap(newMap);
-  };
-
-  // const handleMap = () => {
-  //   mapboxgl.accessToken =
-  //     "pk.eyJ1Ijoia3VzaGlybzIiLCJhIjoiY2xpdWY2aHN2MGk3NjNobXlpY3l1aTlyZCJ9.sqUTG9jXnKN1uTZRFZPuBg";
-  //   const newMap = new mapboxgl.Map({
-  //     container: "map",
-  //     style: "mapbox://styles/kushiro2/cliwz039n016h01pfbfa18ltk",
-  //     zoom: 16,
-  //   });
-  //   newMap.on("load", () => {
-  //     newMap.setCenter([31.17931, 30.46616]);
-  //     const checkInMarker = new mapboxgl.Marker()
-  //       .setLngLat(
-  //         [31.179310, 30.466160]
-  //       )
-  //       .addTo(newMap);
-  //   });
-
-  //   setMap(newMap);
-
-  //   return () => {
-  //     newMap.remove();
-  //     setMap(null);
-  //     setMarker(null);
-  //   };
-  // };
-
+    setImgs(fileNames)
+  }
   useEffect(() => {
-    handleMap();
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setCurrentLocation({lat:latitude,long:longitude});
+        },
+        (error) => {
+          console.error('Error getting location:', error);
+        }
+      );
+    } else {
+      console.error('Geolocation is not supported by your browser');
+    }
   }, []);
+    const handleMapClick = (e) => {
+          const { latLng } = e;
+          const lat = latLng.lat();
+          const long = latLng.lng();
+          setSelection({ lat, long })
+  }
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: "AIzaSyCewVD8Afv0cy6NGoCZkQ4PZRW3OQCFfHA",
+  });
+  const center = useMemo(() => ({ lat:cuurentLocation.lat ? cuurentLocation.lat:24.713552
+ , lng:cuurentLocation.long ? cuurentLocation.long: 46.675297 }), [cuurentLocation]);
+
+
+
   return (
     <div className="flex min:h-screen ">
       <div className="flex-1 flex flex-col bg-stone-100 items-end gap-y-5 rounded-lg w-screen">
@@ -112,7 +87,7 @@ const AddClub = () => {
             <div className="flex justify-around gap-x-5">
               <div>
                 <input type="time" />
-                <span className="text-lg ml-1">الي</span>
+                <span className="text-lg ml-1 ">الي</span>
               </div>
               <div>
                 <input type="time" />
@@ -120,29 +95,24 @@ const AddClub = () => {
               </div>
             </div>
           </div>
+          <div className="flex flex-col my-2">
+            <span className="text-xl text-right">لوجو النادي</span>
+            <input type="file" className=" text-sm w-full text-white bg-neutral-700 border-2 border-black rounded-md p-2" />
+          </div>
+        </div>
+        <div className="flex sm:flex-row flex-col-reverse sm:gap-x-5  px-5">
+          <div className="flex flex-col justify-center items-end">
+            <span className="text-xl text-right">كلمه السر </span>
+            <div className="flex justify-around gap-x-5">
+                   <input type="password" className=" w-full px-5 py-2 border-2 border-black rounded-lg" />
+            </div>
+          </div>
           <div className="flex flex-col">
-            <span className="text-xl text-right">شعار النادي</span>
-            <input type="file" className=" text-sm w-full" />
+            <span className="text-xl text-right">البريد الالكتروني</span>
+            <input type="email" className="  w-full px-5 py-2 border-2 border-black rounded-lg" />
           </div>
         </div>
 
-        <div className="w-full justify-center items-end flex flex-col  px-5">
-          <span className="text-xl">عنوان النادي</span>
-          {/* Map */}
-
-          <div id="map" className="h-screen w-full relative">
-            {map && marker && (
-              <div
-                style={{
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                }}
-              ></div>
-            )}
-          </div>
-        </div>
         <div className="flex flex-col w-full  px-5">
           <span className="text-xl text-right">عن النادي</span>
           <span className="text-md text-right text-gray-500">
@@ -150,30 +120,70 @@ const AddClub = () => {
           </span>
           <textarea className="w-full  resize-none border-2 border-black min-h-52 text-right"></textarea>
         </div>
+        <div className="flex flex-col w-full  px-5 items-end">
+          <span className="text-xl text-right">عموله الموقع</span>
+          <span className="text-md text-right text-gray-500">
+            أدخل عموله الموقع من اشتراك العملاء من النادي
+          </span>
+          <input type="number" className="w-52  resize-none border-2 border-black py-2 text-lg "/>
+        </div>
         <div className="flex flex-col w-full  px-5">
           <span className="text-xl text-right">صور النادي</span>
           {/* if no Imgs*/}
           {/* <span>قم باضافه صور النادي</span> */}
           {/*if imgs*/}
-          <div className="flex gap-x-3 justify-center items-center ">
-            <img src="/assets/club1.jpg" alt="club img" className="w-1/4" />
-            <img src="/assets/club2.jpg" alt="club img" className="w-1/4" />
-            <img src="/assets/club3.jpg" alt="club img" className="w-1/4" />
-            <div
-              className="w-1/4 h-full flex justify-center items-center  px-5"
-              style={{
-                backgroundImage: "url('/assets/main-img-blured.jpg')",
-                backgroundPosition: "center",
-                backgroundSize: "cover",
-                border: "2px solid black",
-              }}
-            >
-              <span className="text-white text-sm">4 صور اخرين</span>
-            </div>
+          <div className="flex flex-col  gap-x-3 justify-center items-center ">
+            <input type="file" multiple className=" text-sm w/fit text-white bg-neutral-700 border-2 border-black rounded-md p-2" ref={imgfiles}  onChange={(e)=>handleImgChange(e.target.files)}/>
+            <div className="flex flex-col justify-center  items-center my-3">
+              {imgs.length ?imgs.map((name) => {
+                return (
+              <div className="flex  items-center w-full justify-evenly gap-x-5">
+                <AiOutlineClose className="text-red-500" onClick={()=>setImgs(imgs.filter((filename)=> filename !== name))}/>
+                <span className="text-lg ">{name }</span>
+              </div>
+            )
+          }):<span className="text-xl text-red-500">فم باضافه صور النادي</span>}
           </div>
-          <button className="text-white bg-green-600 text-xl my-5 px-5 py-2 w-fit rounded-lg">
+          </div>
+          
+        <div className="w-full justify-center items-end flex flex-col  px-5">
+          <span className="text-xl">عنوان النادي</span>
+          {/* Map */}
+
+          <div id="map" className="h-screen w-full relative map">
+            {!isLoaded ? (
+        <h1>Loading...</h1>
+              ) : (
+                  
+        <GoogleMap
+          mapContainerClassName="map-container"
+          center={center}
+          zoom={10}
+          onClick={(e)=>handleMapClick(e)}
+                  >
+                    <Marker
+                      position={
+                        selection.lat ? {
+                        lat : selection.lat,
+                        lng:selection.long
+                      }
+                      : {
+                        lat: cuurentLocation.lat ? cuurentLocation.lat : 24.713552,
+                        lng: cuurentLocation.long ? cuurentLocation.long : 46.675297
+                        }
+                      }
+                      icon={"/assets/placeholder_google_maps1.jpg"}
+                    />
+        </GoogleMap>
+      )}
+          </div>
+          </div>
+          <div className="flex w-full items-center justify-center ">
+            <button className={`${selection.lat ? "  text-white bg-green-600 text-2xl my-5 px-5 py-2 w-1/4 hover:scale-125 transition-all  rounded-lg " : "opacity-50 pointer-events-none text-white text-2xl my-5 px-5 py-2 w-1/4 "}" `} >
             اضافه
           </button>
+          </div>
+            
         </div>
       </div>
       <Sidebar />

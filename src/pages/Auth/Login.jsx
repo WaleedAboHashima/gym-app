@@ -23,15 +23,15 @@ function Login() {
       switch (state.status) {
         case 200:
           if (state.data.user.role === "admin") {
-            cookies.set("_auth_token", state.data.token);
-            cookies.set("_auth_role", "65100109105110");
+            cookies.set("_auth_token", state.data.token, {path: "/"});
+            cookies.set("_auth_role", "65100109105110", {path: "/"});
             window.location.pathname = '/admin/clubs';
 
             break;
           }
           else {
-            cookies.set("_auth_token", state.data.token);
-            cookies.set("_auth_role", "6710811798");
+            cookies.set("_auth_token", state.data.token, {path: "/"});
+            cookies.set("_auth_role", "6710811798", {path: "/"});
             window.location.pathname = '/';
           }
         case 404:

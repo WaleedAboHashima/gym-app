@@ -21,11 +21,11 @@ form {
 }
 
 #submit {
-  position: absolute;
-  width: 100%;
-  bottom: 10px;
-  left: 0;
-  height: 5rem;
+
+
+
+
+ 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -38,7 +38,10 @@ form {
   background-color: #ffdab872;
   transition: all .1s ease-in;
 }
-
+.map-container {
+  height: 100%;
+  width: 100%;
+}
 .home-img {
   height: 80%;
   width: 30%;
