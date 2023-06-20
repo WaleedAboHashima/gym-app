@@ -3,8 +3,8 @@ import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 
 import { Box } from "@mui/material";
-import ConfirmPayment from "../apis/user/ConfirmPayment";
 import Cookies from "universal-cookie";
+import { ConfirmPaymentHandler } from "./../apis/user/ConfirmPayment";
 
 function Success() {
   const location = useLocation();
@@ -16,7 +16,7 @@ function Success() {
   const cookies = new Cookies();
   useEffect(() => {
     dispatch(
-      ConfirmPayment({
+      ConfirmPaymentHandler({
         subId: cookies.get("subId"),
         paymentId,
         payerId: PayerID,
@@ -27,19 +27,24 @@ function Success() {
           case 200:
             setError(200);
             setTimeout(() => {
-              localStorage.removeItem("amount");
-              window.location.href = "http://localhost:3000/";
+              cookies.remove("payment");
+              cookies.remove("subId");
+              window.location.href = "https://main.d1opj2at0btc60.amplifyapp.com/";
             }, 3000);
             break;
           case 500 || 401:
             setError(500);
-            window.location.href = "http://localhost:3000/";
+            cookies.remove("payment");
+            cookies.remove("subId");
+            window.location.href = "https://main.d1opj2at0btc60.amplifyapp.com/";
 
             localStorage.removeItem("amount");
             break;
           case 400:
+            cookies.remove("payment");
+            cookies.remove("subId");
             setError(400);
-            window.location.href = "http://localhost:3000/";
+            window.location.href = "https://main.d1opj2at0btc60.amplifyapp.com/";
             localStorage.removeItem("amount");
           default:
             break;

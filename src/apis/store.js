@@ -24,6 +24,7 @@ import SearchClubReducer from "./user/SearchClub";
 import EditPersonalClubReducer from "./clubs/EditPersonalClub"
 import AddSubReducer from "./clubs/AddSubscription"
 import ConfirmPaymentReducer from "./user/ConfirmPayment"
+import ClubAuthReducer from "./user/GetClubAuth"
 export default configureStore({
   reducer: {
     MakeSub: SubReducer,
@@ -35,6 +36,7 @@ export default configureStore({
     GetClub: GetClubReducer,
     SearchClub: SearchClubReducer,
     ConfirmPayment: ConfirmPaymentReducer,
+    ClubAuth: ClubAuthReducer,
     //Admin
     AddBanner: AddBannerReducer,
     AppDesign: AppDesignReducer,

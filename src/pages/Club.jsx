@@ -3,13 +3,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { GetClubHandler } from "./../apis/user/GetClub";
 import Cookies from "universal-cookie";
+import { ClubAuthHandler } from './../apis/user/GetClubAuth';
 const Club = () => {
   const { id } = useParams();
   const [club, setClub] = useState();
   const [sub, setSub] = useState();
   const dispatch = useDispatch();
   const cookies = new Cookies();
+  
   useEffect(() => {
+    dispatch(ClubAuthHandler({ id, lat: localStorage.getItem("lat"), long: localStorage.getItem("long") })).then((res) => {
+      if (res.payload.data) {
+        if (res.payload.data.sub) {
+          window.location.pathname = `/subscribe/${id}`
+        }
+      }
+    })
     dispatch(GetClubHandler({ id })).then((res) => {
       if (res.payload.data) {
         setClub(res.payload.data.club);
@@ -17,6 +26,7 @@ const Club = () => {
       }
     });
   }, [id]);
+  
 
   return (
     <div className="flex justify-center items-center md:my-10  ">

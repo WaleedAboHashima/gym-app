@@ -36,7 +36,7 @@ import PlayerCard from "./pages/Club/PlayerCard";
 import { useDispatch } from "react-redux";
 import { GetRulesHandler } from "./apis/rules";
 import Success from "./pages/Success";
-import { Cancel } from "@mui/icons-material";
+import Cancel from "./pages/Cancel";
 
 function App() {
   const dispatch = useDispatch();
@@ -113,6 +113,22 @@ function App() {
   const [bar, setBar] = useState(false);
   const [rules, setRules] = useState(false);
   const [newLogo, setNewLogo] = useState();
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          localStorage.setItem("lat", latitude);
+          localStorage.setItem("long", longitude);
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by your browser");
+    }
+  }, []);
   useEffect(() => {
     // Fetch the rules from the backend
     dispatch(GetRulesHandler()).then((res) => {

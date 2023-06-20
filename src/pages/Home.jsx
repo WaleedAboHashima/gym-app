@@ -18,7 +18,6 @@ const Home = ({ bar }) => {
   const [country, setCountry] = useState("");
   const dispatch = useDispatch();
 
-
   const handleForm = () => {
     dispatch(SearchClubHandler({ country: data.country, city: data.city, gender: data.gender })).then((res) => {
       if (res.payload.data) {

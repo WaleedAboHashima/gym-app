@@ -1,12 +1,16 @@
 import React, { useEffect } from "react";
 import { Box } from "@mui/material";
+import Cookies from "universal-cookie";
 
 function Cancel() {
-    useEffect(() => {
-        setTimeout(() => {
-            window.location.href = 'https://main.d328sn5gxpslxw.amplifyapp.com/'
-        }, 3000);
-    }, [])
+  const cookies = new Cookies();
+  useEffect(() => {
+    setTimeout(() => {
+      cookies.remove("payment", { path: "/" });
+      cookies.remove("subId", { path: "/" });
+      window.location.href = "https://main.d1opj2at0btc60.amplifyapp.com/";
+    }, 3000);
+  }, []);
   return (
     <Box
       style={{
