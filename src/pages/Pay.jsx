@@ -18,6 +18,7 @@ const Pay = () => {
     dispatch(MakeSubsHandler({ id })).then((res) => {
       if (res.payload.data) {
         cookies.set("payment", true, { path: "/" });
+        cookies.set("subId" , id, { path: "/" });
         window.open(res.payload.data.approvalUrl, "_blank");
       }
     });

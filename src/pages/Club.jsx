@@ -87,7 +87,7 @@ const Club = () => {
                 style={!cookies.get("_auth_token") ? {display:"block"} :cookies.get('_auth_role') === "6710811798" ? {display:"block"}:{display:"none"}}
                 className="bg-red-700 text-white rounded-md sm:text-xl text-md sm:px-5 px-2 sm:py-3 sm:mt-0 mt-10 mr-20 sm:mr-0 py-1 hover:bg-white hover:text-red-700 border-2 border-red-700 transition-all"
                 onClick={() =>
-                  (window.location.pathname = `/pay/${club._id}`)
+                  !cookies.get("_auth_token") ? window.location.pathname = "/auth/reg" : window.location.pathname = `/pay/${club._id}`
                 }
               >
                 { !cookies.get("_auth_token") ? <span>انضم لنا</span> :cookies.get('_auth_role') === "6710811798" ? <span>اشترك</span>:<span></span>}

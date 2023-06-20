@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 
 import { Box } from "@mui/material";
 import ConfirmPayment from "../apis/user/ConfirmPayment";
+import Cookies from "universal-cookie";
 
 function Success() {
   const location = useLocation();
@@ -12,10 +13,11 @@ function Success() {
   const paymentId = queryParam.get("paymentId");
   const PayerID = queryParam.get("PayerID");
   const dispatch = useDispatch();
-
+  const cookies = new Cookies();
   useEffect(() => {
     dispatch(
       ConfirmPayment({
+        subId: cookies.get("subId"),
         paymentId,
         payerId: PayerID,
       })
