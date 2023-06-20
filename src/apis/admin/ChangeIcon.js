@@ -10,17 +10,18 @@ const initialState = {
   status: "",
 };
 const cookies = new Cookies();
+const api = "http://localhost:8080/admin/rule?type=main_img";
 
-const api = "http://localhost:8080/user/make_sub/";
-
-export const MakeSubsHandler = createAsyncThunk(
-  "SubSlice/MakeSubsHandler",
+export const IconHandler = createAsyncThunk(
+  "IconHandler/IconSlice",
   async (arg) => {
     try {
       const response = await axios.post(
-        api + arg.id + `?type=paypal`,
-        {},
-        { headers: { authorization: `Bearer ${cookies.get("_auth_token")}` } }
+        api,
+        arg,
+        {
+          headers: { authorization: `Bearer ${cookies.get("_auth_token")}` },
+        }
       );
       return {
         data: response.data,
@@ -28,19 +29,19 @@ export const MakeSubsHandler = createAsyncThunk(
       };
     } catch (err) {
       return {
-        message: err.response.data.message,
-        status: err.response.data.error.statusCode,
+        message: err.response.data.err.msg,
+        status: err.response.status,
       };
     }
   }
 );
 
-const SubSlice = createSlice({
-  name: "SubSlice",
+const IconSlice = createSlice({
+  name: "IconSlice",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(MakeSubsHandler.fulfilled, (state, action) => {
+    builder.addCase(IconHandler.fulfilled, (state, action) => {
       state.loading = true;
       if (action.payload.status === 200) {
         state.data = action.payload.data;
@@ -56,14 +57,15 @@ const SubSlice = createSlice({
         state.loading = false;
       }
     });
-    builder.addCase(MakeSubsHandler.rejected, (state, action) => {
+    builder.addCase(IconHandler.rejected, (state, action) => {
+      console.log(action);
       state.loading = false;
       state.error = "Server Error";
       state.data = {};
       state.state = "Rejected";
       state.status = 500;
     });
-    builder.addCase(MakeSubsHandler.pending, (state) => {
+    builder.addCase(IconHandler.pending, (state) => {
       state.loading = true;
       state.error = "";
       state.data = {};
@@ -73,4 +75,4 @@ const SubSlice = createSlice({
   },
 });
 
-export default SubSlice.reducer;
+export default IconSlice.reducer;

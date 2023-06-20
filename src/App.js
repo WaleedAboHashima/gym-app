@@ -23,8 +23,8 @@ import Payments from "./pages/Admin/Payments";
 import Reports from "./pages/Admin/Reports";
 import Complaints from "./pages/Admin/Complaints";
 import UsersQuestions from "./pages/Admin/UsersQuestions";
-import Logo from "./pages/Admin/Logo";
-import Icon from "./pages/Admin/Icon";
+import AppImgs from "./pages/Admin/AppImgs";
+import WebImgs from "./pages/Admin/WebImgs";
 import Cookies from "universal-cookie";
 import EditClub from "./pages/Admin/EditClub";
 import EditPersonalClub from "./pages/Club/EditClub";
@@ -33,8 +33,13 @@ import AddSubscribes from "./pages/Club/AddSubscribes";
 
 import VerifyPlayer from "./pages/Club/VerifyPlayer";
 import PlayerCard from "./pages/Club/PlayerCard";
+import { useDispatch } from "react-redux";
+import { GetRulesHandler } from "./apis/rules";
+import Success from "./pages/Success";
+import { Cancel } from "@mui/icons-material";
 
 function App() {
+  const dispatch = useDispatch();
   const clubsData = [
     {
       id: 1,
@@ -106,12 +111,41 @@ function App() {
   const [activeBar, setActiveBar] = useState("/");
   const cookies = new Cookies();
   const [bar, setBar] = useState(false);
+  const [rules, setRules] = useState(false);
+  const [newLogo, setNewLogo] = useState();
+  useEffect(() => {
+    // Fetch the rules from the backend
+    dispatch(GetRulesHandler()).then((res) => {
+      if (res.payload) {
+        // Get the main logo URL from the rules
+        const rules = res.payload.data.rules;
+        const logoUrl = rules.find(
+          (rule) => rule.type === "main_logo"
+        )?.main_logo;
+
+        // Update the newLogo state
+        setNewLogo(logoUrl);
+      }
+    });
+  }, [dispatch]);
+
+  useEffect(() => {
+    // Update the favicon URL when the newLogo state changes
+    if (newLogo) {
+      const favicon = document.querySelector("link[rel='icon']");
+      favicon.href = newLogo + "?v=" + Date.now();
+    }
+  }, [newLogo]);
   useEffect(() => {
     if (window.location.pathname.includes("admin")) setActiveBar("");
+    dispatch(GetRulesHandler()).then((res) => {
+      if (res.payload.data) setRules(res.payload.data.rules);
+    });
   }, []);
   return (
     <div className="App ">
       <Navbar
+        rules={rules}
         bar={bar}
         setBar={setBar}
         setActive={setActive}
@@ -121,14 +155,28 @@ function App() {
       />
       <Routes>
         <Route path="/" element={<Home bar={bar} />} />
-        <Route path="/auth/reg" element={<Register />} />
-        <Route
-          path="/auth/login"
-          element={<Login setActive={setActive} setActiveBar={setActiveBar} />}
-        />
+        {!cookies.get("_auth_token") && (
+          <>
+            <Route path="/auth/reg" element={<Register />} />
+            <Route
+              path="/auth/login"
+              element={
+                <Login setActive={setActive} setActiveBar={setActiveBar} />
+              }
+            />
+          </>
+        )}
+
         <Route path="/clubs" element={<Clubs />} />
         <Route path="/clubs/:id" element={<Club />} />
         <Route path="/pay/:id" element={<Pay />} />
+        {cookies.get("payment") && (
+          <>
+            <Route path="/success" element={<Success />} />
+            <Route path="/cancel" element={<Cancel />} />
+          </>
+        )}
+
         <Route
           path="/subscribe/:club_id"
           element={<ClubSub clubsData={clubsData} />}
@@ -156,10 +204,11 @@ function App() {
             <Route path="/admin/reports" element={<Reports />} />
             <Route path="/admin/complaints" element={<Complaints />} />
             <Route path="/admin/questions" element={<UsersQuestions />} />
-            <Route path="/admin/imgs/logo" element={<Logo />} />
-            <Route path="/admin/imgs/icon" element={<Icon />} />
+            <Route path="/admin/imgs/mop" element={<AppImgs />} />
+            <Route path="/admin/imgs/web" element={<WebImgs />} />
           </>
-        ) : (
+        ) : cookies.get("_auth_token") &&
+          cookies.get("_auth_role") === "9910811798" ? (
           <>
             <Route
               path="/club/edit"
@@ -174,11 +223,13 @@ function App() {
               element={<PlayerCard clubsData={clubsData} />}
             />
           </>
+        ) : (
+          ""
         )}
 
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <Footer />
+      <Footer rules={rules} />
     </div>
   );
 }

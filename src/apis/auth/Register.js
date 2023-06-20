@@ -21,6 +21,7 @@ export const RegisterHandler = createAsyncThunk(
         phone: arg.phone,
         email: arg.email,
         password: arg.password,
+        gender: arg.gender,
       });
       return {
         data: response.data,

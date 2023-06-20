@@ -10,12 +10,13 @@ function Register() {
   const [phone, setPhone] = useState();
   const [email, setEmail] = useState();
   const [error, setError] = useState();
+  const [gender, setGender] = useState("male");
   const [password, setPassword] = useState();
   const state = useSelector((state) => state.Register);
   const dispatch = useDispatch();
   const handleRegister = () => {
     dispatch(
-      RegisterHandler({ username, home_location, phone, email, password })
+      RegisterHandler({ username, home_location, phone, email, password, gender })
     );
   };
   const handleStatus = () => {
@@ -53,25 +54,14 @@ function Register() {
             touched,
           }) => (
             <form
-              className="flex sm:w-1/3 w-full flex-col relative pt-5 px-5  gap-10"
+              className="flex sm:w-1/3 w-full flex-col pt-5   gap-10 h-fit justify-between"
               onSubmit={handleSubmit}
-              style={{ height: "calc(100vh - 15vh)" }}
-            >
-              <div
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  backgroundImage: "url('/assets/main-img.jpg')",
+              style={{backgroundImage: "url('/assets/main-img-blured.jpg')",
                   backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  filter: "blur(10px)",
-                  zIndex: -1,
-                }}
-              ></div>
-              <div className="flex flex-col text-right  text-white ">
+                  backgroundPosition: "center", }}
+            >
+
+              <div className="flex flex-col text-right  text-white pr-5 ">
                 <span className="text-3xl">تسجيل </span>
                 <span className="text-l pt-2">
                   {" "}
@@ -150,6 +140,23 @@ function Register() {
                   />
                   <AiFillLock className="text-white text-2xl" />
                 </div>
+                <div className="flex flex-row items-center justify-center">
+                  <select
+                    required
+                    onBlur={handleBlur}
+                    name="gender"
+                    value={values.gender}
+                    onChange={handleChange}
+                    onChangeCapture={(e) => setGender(e.target.value)}
+                    type="email"
+                    placeholder=""
+                    className="text-white border-b-2 border-white px-1 py-3  w-10/12 text-right outline-none bg-inherit placeholder:text-white text-lg"
+                  >
+                    <option>ذكر</option>
+                    <option>انثي</option>
+                  </select>
+                  <AiOutlineUser className="text-white text-2xl" />
+                </div>
                 <div className="flex items-center w-full font-bold h-4 text-red-500 justify-center">
                   {error}
                 </div>
@@ -199,5 +206,6 @@ const initialValues = {
   phone: "",
   email: "",
   password: "",
+  gender: ""
 };
 export default Register;

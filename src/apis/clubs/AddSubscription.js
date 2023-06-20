@@ -10,17 +10,18 @@ const initialState = {
   status: "",
 };
 const cookies = new Cookies();
+const api = "http://localhost:8080/club/subscription";
 
-const api = "http://localhost:8080/user/make_sub/";
-
-export const MakeSubsHandler = createAsyncThunk(
-  "SubSlice/MakeSubsHandler",
+export const AddSubHandler = createAsyncThunk(
+  "SubSlice/AddSubHandler",
   async (arg) => {
     try {
       const response = await axios.post(
-        api + arg.id + `?type=paypal`,
-        {},
-        { headers: { authorization: `Bearer ${cookies.get("_auth_token")}` } }
+        api,
+        { name: arg.name, price: arg.price, type: arg.type },
+        {
+          headers: { authorization: `Bearer ${cookies.get("_auth_token")}` },
+        }
       );
       return {
         data: response.data,
@@ -28,8 +29,8 @@ export const MakeSubsHandler = createAsyncThunk(
       };
     } catch (err) {
       return {
-        message: err.response.data.message,
-        status: err.response.data.error.statusCode,
+        message: err.response.data,
+        status: err.response.status,
       };
     }
   }
@@ -40,9 +41,9 @@ const SubSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(MakeSubsHandler.fulfilled, (state, action) => {
+    builder.addCase(AddSubHandler.fulfilled, (state, action) => {
       state.loading = true;
-      if (action.payload.status === 200) {
+      if (action.payload.status === 201) {
         state.data = action.payload.data;
         state.state = "Success";
         state.status = action.payload.status;
@@ -56,14 +57,14 @@ const SubSlice = createSlice({
         state.loading = false;
       }
     });
-    builder.addCase(MakeSubsHandler.rejected, (state, action) => {
+    builder.addCase(AddSubHandler.rejected, (state, action) => {
       state.loading = false;
       state.error = "Server Error";
       state.data = {};
       state.state = "Rejected";
       state.status = 500;
     });
-    builder.addCase(MakeSubsHandler.pending, (state) => {
+    builder.addCase(AddSubHandler.pending, (state) => {
       state.loading = true;
       state.error = "";
       state.data = {};

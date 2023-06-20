@@ -10,18 +10,15 @@ const initialState = {
   status: "",
 };
 const cookies = new Cookies();
+const api = "http://localhost:8080/club/subscription/";
 
-const api = "http://localhost:8080/user/make_sub/";
-
-export const MakeSubsHandler = createAsyncThunk(
-  "SubSlice/MakeSubsHandler",
+export const DeleteSubHandler = createAsyncThunk(
+  "DeleteSubSlice/DeleteSubHandler",
   async (arg) => {
     try {
-      const response = await axios.post(
-        api + arg.id + `?type=paypal`,
-        {},
-        { headers: { authorization: `Bearer ${cookies.get("_auth_token")}` } }
-      );
+      const response = await axios.delete(api + arg.id, {
+        headers: { authorization: `Bearer ${cookies.get("_auth_token")}` },
+      });
       return {
         data: response.data,
         status: response.status,
@@ -29,18 +26,18 @@ export const MakeSubsHandler = createAsyncThunk(
     } catch (err) {
       return {
         message: err.response.data.message,
-        status: err.response.data.error.statusCode,
+        status: err.response.status,
       };
     }
   }
 );
 
-const SubSlice = createSlice({
-  name: "SubSlice",
+const DeleteSubSlice = createSlice({
+  name: "DeleteSubSlice",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(MakeSubsHandler.fulfilled, (state, action) => {
+    builder.addCase(DeleteSubHandler.fulfilled, (state, action) => {
       state.loading = true;
       if (action.payload.status === 200) {
         state.data = action.payload.data;
@@ -56,14 +53,14 @@ const SubSlice = createSlice({
         state.loading = false;
       }
     });
-    builder.addCase(MakeSubsHandler.rejected, (state, action) => {
+    builder.addCase(DeleteSubHandler.rejected, (state, action) => {
       state.loading = false;
       state.error = "Server Error";
       state.data = {};
       state.state = "Rejected";
       state.status = 500;
     });
-    builder.addCase(MakeSubsHandler.pending, (state) => {
+    builder.addCase(DeleteSubHandler.pending, (state) => {
       state.loading = true;
       state.error = "";
       state.data = {};
@@ -73,4 +70,4 @@ const SubSlice = createSlice({
   },
 });
 
-export default SubSlice.reducer;
+export default DeleteSubSlice.reducer;

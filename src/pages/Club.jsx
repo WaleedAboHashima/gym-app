@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { GetClubHandler } from "./../apis/user/GetClub";
+import Cookies from "universal-cookie";
 const Club = () => {
   const { id } = useParams();
   const [club, setClub] = useState();
   const [sub, setSub] = useState();
   const dispatch = useDispatch();
-console.log(club)
+  const cookies = new Cookies();
   useEffect(() => {
     dispatch(GetClubHandler({ id })).then((res) => {
       if (res.payload.data) {
@@ -83,12 +84,13 @@ console.log(club)
           <div className="flex justify-between items-center">
             <div className="flex justify-center items-center sm:flex-1 text-center">
               <button
+                style={!cookies.get("_auth_token") ? {display:"block"} :cookies.get('_auth_role') === "6710811798" ? {display:"block"}:{display:"none"}}
                 className="bg-red-700 text-white rounded-md sm:text-xl text-md sm:px-5 px-2 sm:py-3 sm:mt-0 mt-10 mr-20 sm:mr-0 py-1 hover:bg-white hover:text-red-700 border-2 border-red-700 transition-all"
                 onClick={() =>
                   (window.location.pathname = `/pay/${club._id}`)
                 }
               >
-                اشترك
+                { !cookies.get("_auth_token") ? <span>انضم لنا</span> :cookies.get('_auth_role') === "6710811798" ? <span>اشترك</span>:<span></span>}
               </button>
             </div>
             <div className="flex flex-col sm:mt-10 mt-0  items-end flex-1 ">

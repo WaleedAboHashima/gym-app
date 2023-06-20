@@ -31,18 +31,18 @@ const Clubs = () => {
           />
         </div>
       </div>
-      <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-10 items-center justify-items-center mt-10 mb-5 h-full overflow-hidden p-5">
+      <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-10 items-center justify-items-center mt-10 mb-5 h-full overflow-hidden p-5 bg-slate-100">
         {state.data.Clubs ? (
           state.data.Clubs.map((club) => {
             return (
               <div
-                className="flex flex-col border-solid  justify-center items-center w-full   rounded-md bg-stone-100 shadow-stone-100 shadow-lg "
-                key={club.id}
+                className="flex flex-col border-solid  justify-center items-center w-full   rounded-md bg-white shadow-lg "
+                key={club._id}
               >
                 <img
                   src="/assets/main-img.jpg"
                   alt="img"
-                  className="w-3/4 pt-5"
+                  className="w-full h-auto p-5  "
                 />
                 <span className="text-2xl text-black p-2">{club.name}</span>
                 <span className="text-2xl text-gray-600 p-2 w-full break-words text-right">

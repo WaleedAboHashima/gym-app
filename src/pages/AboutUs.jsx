@@ -5,15 +5,15 @@ import { GetRulesHandler } from './../apis/rules';
 const AboutUs = () => {
   const dispatch = useDispatch();
   const [aboutUs, setAboutUs] = useState();
-
-  console.log(aboutUs)
   useEffect(() => {
     dispatch(GetRulesHandler()).then(response => {
-      setAboutUs(response.payload.data.rules.filter(r => r.type === "privacy"));
+      const rules = response.payload.data.rules.filter(r => r.type === 'uses')
+      console.log(rules)
+      setAboutUs(rules);
     })
   }, [dispatch])
   return (
-    <div className='flex flex-col justify-start mt-20 items-center md:h-screen gap-y-5 px-10'>
+    <div className='flex flex-col justify-start mt-20 items-center h-screen gap-y-5 px-10'>
       <div className='flex flex-col items-center gap-y-9 bg-gray-50 shadow-xl rounded-3xl p-5 md:w-9/12'>
         <span className='md:text-4xl text-xl'>نبذة </span>
         <span className='md:text-4xl text-xl text-gray-500 md:mb-10'>GYMS نبذة عن </span>

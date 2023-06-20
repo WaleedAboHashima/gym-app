@@ -19,21 +19,27 @@ function Login() {
   };
 
   const handleStatus = () => {
+    setError("");
     if (state.status) {
       switch (state.status) {
         case 200:
           if (state.data.user.role === "admin") {
-            cookies.set("_auth_token", state.data.token, {path: "/"});
-            cookies.set("_auth_role", "65100109105110", {path: "/"});
+            cookies.set("_auth_token", state.data.token, { path: "/" });
+            cookies.set("_auth_role", "65100109105110", { path: "/" });
             window.location.pathname = '/admin/clubs';
-
             break;
           }
-          else {
-            cookies.set("_auth_token", state.data.token, {path: "/"});
-            cookies.set("_auth_role", "6710811798", {path: "/"});
+          else if (state.data.user.role === "club") {
+            cookies.set("_auth_token", state.data.token, { path: "/" });
+            cookies.set("_auth_role", "9910811798", { path: "/" });
+            cookies.set("_auth_club", state.data.user.club, { path: "/" });
+            window.location.pathname = '/club/edit';
+          } else {
+            cookies.set("_auth_token", state.data.token, { path: "/" });
+            cookies.set("_auth_role", "6710811798", { path: "/" });
             window.location.pathname = '/';
           }
+          break;
         case 404:
           setError("لا يوجد مستخدم بهذه البيانات");
           break;
@@ -45,6 +51,7 @@ function Login() {
           break;
         default:
           setError("");
+          break;
       }
     }
   };
@@ -65,26 +72,13 @@ function Login() {
             touched,
           }) => (
             <form
-              className="flex sm:w-1/3 w-full flex-col relative p-5  h-full justify gap-10"
+              className="flex sm:w-1/3 w-full flex-col pt-5   gap-10 h-fit justify-between"
               onSubmit={handleSubmit}
-              style={{ height: "calc(100vh - 30vh)" }}
-            >
-              <div
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  backgroundImage: "url('/assets/main-img.jpg')",
+              style={{backgroundImage: "url('/assets/main-img-blured.jpg')",
                   backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  filter: "blur(10px)",
-                  zIndex: -1,
-                }}
-              ></div>
-              <div className="flex flex-col text-right  text-white mt-5">
-                <span className="text-3xl">تسجيل الدخول</span>
+                  backgroundPosition: "center", }}
+            >
+              <div className="flex flex-col text-right  text-white mt-5 px-5">                <span className="text-3xl">تسجيل الدخول</span>
                 <span className="text-l pt-2">
                   أدخل البريد الإلكتروني وكلمة المرور الخاصة بك
                 </span>

@@ -1,6 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import Cookies from 'universal-cookie'
 
-const Footer = () => {
+const Footer = ({rules}) => {
+  const cookies = new Cookies();
+  const [img, setImg] = useState();
+  useEffect(() => {
+    if (rules) rules.filter(r => r.type === "main_img" && setImg(r))
+  }, [rules])
     return (
         <div className='flex flex-row-reverse justify-around items-start text-right bg-orange-50 p-10 '>
         <div className='flex flex-col flex-1 text-right items-end gap-y-5 '>
@@ -35,11 +41,11 @@ const Footer = () => {
           </div>
           </div>
         <div className='md:flex  hidden flex-col flex-1 items-center gap-y-5'>
-          <button className='text-white text-2xl bg-stone-800 w-fit px-6 py-2 rounded-lg' onClick={()=>window.location.pathname="/auth/reg"}>انضم لنا</button>
+          <button style={cookies.get('_auth_token') ? {display: 'none'} : {display: 'block'}} className='text-white text-2xl bg-stone-800 w-fit px-6 py-2 rounded-lg' onClick={()=>window.location.pathname="/auth/reg"}>انضم لنا</button>
           <img src='/assets/AppStore.png' alt='App Store' className='w-1/2'/>
           <img src='/assets/GooglePlay.png' alt='Google Play' className='w-1/2'/>
         </div>
-          <div className='sm:flex  hidden'><img src='/assets/Logo.png' alt='logo'/></div>
+          <div className='sm:flex  hidden'><img src={img ? img.main_img : '/assets/Logo.png'} alt='logo'/></div>
         </div>
   )
 }

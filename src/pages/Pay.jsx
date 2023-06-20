@@ -5,13 +5,24 @@ import { SiVisa, SiMastercard } from "react-icons/si";
 import { useDispatch, useSelector } from "react-redux";
 import { GetClubHandler } from "../apis/user/GetClub";
 import { MakeSubsHandler } from "./../apis/user/SubSelection";
+import Cookies from "universal-cookie";
 const Pay = () => {
   const { id } = useParams();
   const [sub, setSub] = useState();
   const [price, setPrice] = useState();
-  const [link, setLink] = useState();
+  const [subId, setSubId] = useState();
   const state = useSelector((state) => state.MakeSub);
   const dispatch = useDispatch();
+  const cookies = new Cookies();
+  const handlePaypal = (id) => {
+    dispatch(MakeSubsHandler({ id })).then((res) => {
+      if (res.payload.data) {
+        cookies.set("payment", true, { path: "/" });
+        window.open(res.payload.data.approvalUrl, "_blank");
+      }
+    });
+  };
+
   useEffect(() => {
     dispatch(GetClubHandler({ id })).then((res) => {
       if (res.payload.data) {
@@ -44,13 +55,9 @@ const Pay = () => {
                   key={sub._id}
                   onClick={() => {
                     setPrice(sub.price);
-                    dispatch(MakeSubsHandler({ id: sub._id })).then((res) => {
-                      if (res.payload.data) {
-                        setLink(res.payload.data.approvalUrl);
-                      }
-                    });
+                    setSubId(sub._id);
                   }}
-                  className="w-1/3 rounded-lg flex flex-col items-center justify-center px-2 py-1 sm:p-5 hover:cursor-pointer transition-all border-2 border-black hover:border-amber-300"
+                  className="w-1/3 rounded-lg flex flex-col items-center justify-center px-2 py-1 sm:p-5 hover:cursor-pointer transition-all border-2 border-black hover:border-amber-300 active:border-amber-500 focus:border-amber-500"
                   style={{
                     backgroundImage: "url('/assets/main-img-blured.jpg')",
                     backgroundPosition: "center",
@@ -70,8 +77,7 @@ const Pay = () => {
         <div className="w-full justify-around items-center flex py-10">
           {price ? (
             <span className="md:text-3xl text-xl text-white">
-              اجمالي مبلغ الدفع :{" "}
-              <span>{state.loading ? "جاري التحميل" : `$ ${price}`}</span>
+              اجمالي مبلغ الدفع : <span>${price}</span>
             </span>
           ) : (
             <span className="md:text-3xl text-xl text-white">
@@ -91,7 +97,7 @@ const Pay = () => {
         <button
           style={{ backgroundColor: "#fdc43a" }}
           className="text-2xl  flex items-center gap-x-3 justify-around py-3 px-5 rounded-md text-white hover  transition-all hover:scale-105"
-          onClick={() => (link ? window.open(link, "_blank") : "")}
+          onClick={() => (subId ? handlePaypal(subId) : "")}
         >
           <BsPaypal style={{ color: "#009cd3" }} />
           <span>الدفع عن طريق </span>
