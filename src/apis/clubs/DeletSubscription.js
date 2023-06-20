@@ -10,7 +10,7 @@ const initialState = {
   status: "",
 };
 const cookies = new Cookies();
-const api = "http://localhost:8080/club/subscription/";
+const api = "https://gyms-s47e.onrender.com/club/subscription/";
 
 export const DeleteSubHandler = createAsyncThunk(
   "DeleteSubSlice/DeleteSubHandler",

@@ -9,7 +9,7 @@ const initialState = {
   error: "",
 };
 
-const api = "http://localhost:8080/user/rules";
+const api = "https://gyms-s47e.onrender.com/user/rules";
 
 export const GetRulesHandler = createAsyncThunk(
   "GetRulesSlice/GetRulesHandler",

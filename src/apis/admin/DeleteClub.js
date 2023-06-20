@@ -10,7 +10,7 @@ const initialState = {
     error: "",
 }
 
-const api = "http://localhost:8080/admin/club/"
+const api = "https://gyms-s47e.onrender.com/admin/club/"
 const cookies = new Cookies();
 
 export const DeleteClubHandler = createAsyncThunk("DeleteClubSlice/DeleteClubHandler", async (arg) => {

@@ -9,7 +9,7 @@ const initialState = {
     status: '',
 }
 
-const api = 'http://localhost:8080/auth/login';
+const api = 'https://gyms-s47e.onrender.com/auth/login';
 
 export const LoginHandler = createAsyncThunk('LoginSlice/LoginHandler', async (arg) => {
     try {

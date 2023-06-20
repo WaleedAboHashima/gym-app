@@ -10,8 +10,7 @@ const initialState = {
   status: "",
 };
 const cookies = new Cookies();
-const api = "http://localhost:8080/user/confirm_payment/";
-// const api = 'http://localhost:8080/user/confirmPayment';
+const api = "https://gyms-s47e.onrender.com/user/confirm_payment/";
 
 export const ConfirmPaymentHandler = createAsyncThunk(
   "ConfirmPaymentSlice/ConfirmPaymentHandler",

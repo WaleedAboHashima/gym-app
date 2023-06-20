@@ -9,7 +9,7 @@ const initialState = {
   status: "",
 };
 
-const api = "http://localhost:8080/auth/register";
+const api = "https://gyms-s47e.onrender.com/auth/register";
 
 export const RegisterHandler = createAsyncThunk(
   "RegisterData/RegisterHandler",

@@ -10,7 +10,7 @@ const initialState = {
   status: "",
 };
 const cookies = new Cookies();
-const api = "http://localhost:8080/admin/rule?type=questions";
+const api = "https://gyms-s47e.onrender.com/admin/rule?type=questions";
 
 export const AddQuestionsHandler = createAsyncThunk(
   "AddQuestionsSlice/AddQuestionsHandler",

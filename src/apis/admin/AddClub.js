@@ -10,7 +10,7 @@ const initialState = {
   status: "",
 };
 const cookies = new Cookies();
-const api = "http://localhost:8080/admin/club";
+const api = "https://gyms-s47e.onrender.com/admin/club";
 
 export const AddClubHandler = createAsyncThunk(
   "AddClubSlice/AddClubHandler",

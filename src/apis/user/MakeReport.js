@@ -9,7 +9,7 @@ const initialState = {
     status: '',
 }
 
-const api = 'http://localhost:8080/user/user_reports';
+const api = 'https://gyms-s47e.onrender.com/user/user_reports';
 
 export const MakeReportHandler = createAsyncThunk('ReportSlice/MakeReportHandler', async (arg) => {
     try {

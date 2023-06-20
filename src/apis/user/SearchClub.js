@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const api = "http://localhost:8080/user/clubs/search";
+const api = "https://gyms-s47e.onrender.com/user/clubs/search";
 
 const initialState = {
   data: [],

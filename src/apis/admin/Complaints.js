@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import Cookies from "universal-cookie";
 
-const api = "http://localhost:8080/admin/user_reports";
+const api = "https://gyms-s47e.onrender.com/admin/user_reports";
 
 const initialState = {
   data: [],
