@@ -257,7 +257,7 @@ const Home = ({ bar }) => {
                         });
                       }}
                     >
-                        {state.loading ? <CircularProgress size={30} /> : "اخترالمدينه" }
+                        {state && state.loading ? <CircularProgress size={30} /> : "اخترالمدينه" }
                     </button>
                   </form>
                 )}

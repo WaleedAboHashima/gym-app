@@ -1,16 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { GetPlayerHandler } from "../../apis/clubs/GetPlayer";
+import { Backdrop, CircularProgress } from "@mui/material";
 
 const PlayerCard = () => {
   const { code } = useParams();
   const [club, setClub] = useState("");
+  const playerData = useSelector((state) => state.GetPLayer);
   const dispatch = useDispatch();
-
-  useEffect(() => {dispatch(GetPlayerHandler({code}))}, []);
+  console.log(playerData)
+  useEffect(() => {
+    dispatch(GetPlayerHandler({ code }));
+  }, [dispatch]);
   return (
     <div className="flex justify-center items-center md:my-10  ">
+      {playerData.loading ? (
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={playerData.loading}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      ) : (
+        ""
+      )}
       <div className="flex flex-row-reverse   bg-gray-50 shadow-xl rounded-3xl sm:p-5 p-3 md:w-9/12 w-full">
         <div className="flex flex-col flex-1 gap-y-10  items-end  py-5">
           <div className="flex  justify-between text-right w-full">
@@ -25,7 +39,6 @@ const PlayerCard = () => {
               <div className="flex flex-col">
                 <span className="md:text-4xl text-xl">النادي الحالي</span>
                 <span className="text-gray-500 md:text-lg text-sm">
-                  {" "}
                   مشترك بنادي ( {club.name} )
                 </span>
               </div>
@@ -40,7 +53,7 @@ const PlayerCard = () => {
                   }}
                 >
                   <span className="md:text-3xl text-lg text-white ">
-                    {/*username*/} عامر محسن النخال
+                    {/*username*/} {playerData ? playerData.player.user.username : ""}
                   </span>
                   <span className="md:text-3xl text-lg text-white">
                     {/*userId*/} 521xa4
