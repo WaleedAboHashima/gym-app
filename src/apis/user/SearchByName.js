@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import Cookies from "universal-cookie";
 
 const api = "https://gyms-s47e.onrender.com/user/club?search=";
 
@@ -12,8 +11,8 @@ const initialState = {
     loading: false,
 };
 
-export const SearchClubHandler = createAsyncThunk(
-    "SearchSlice/SearchClubHandler",
+export const SearchClubNameHandler = createAsyncThunk(
+    "SearchNameSlice/SearchClubNameHandler",
     async (arg) => {
         try {
             const response = await axios.get(api + arg.search);
@@ -30,12 +29,12 @@ export const SearchClubHandler = createAsyncThunk(
     }
 );
 
-const SearchByName = createSlice({
-    name: "SearchSlice",
+const SearchNameSlice = createSlice({
+    name: "SearchNameSlice",
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(SearchClubHandler.fulfilled, (state, action) => {
+        builder.addCase(SearchClubNameHandler.fulfilled, (state, action) => {
             state.loading = true;
             switch (action.payload.status) {
                 case 200:
@@ -61,14 +60,14 @@ const SearchByName = createSlice({
                     break;
             }
         });
-        builder.addCase(SearchClubHandler.rejected, (state) => {
+        builder.addCase(SearchClubNameHandler.rejected, (state) => {
             state.data = [];
             state.loading = false;
             state.status = 500;
             state.error = "Server Error";
             state.state = "Rejected";
         });
-        builder.addCase(SearchClubHandler.pending, (state) => {
+        builder.addCase(SearchClubNameHandler.pending, (state) => {
             state.loading = true;
             state.data = [];
             state.error = "";
@@ -78,4 +77,4 @@ const SearchByName = createSlice({
     },
 });
 
-export default SearchByName.reducer;
+export default SearchNameSlice.reducer;

@@ -33,6 +33,7 @@ function Login() {
             cookies.set("_auth_token", state.data.token, { path: "/" });
             cookies.set("_auth_role", "9910811798", { path: "/" });
             cookies.set("_auth_club", state.data.user.club, { path: "/" });
+            cookies.set("_auth_name", state.data.user.username, { path: "/" });
             window.location.pathname = '/club/edit';
           } else {
             cookies.set("_auth_token", state.data.token, { path: "/" });

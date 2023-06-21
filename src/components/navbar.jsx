@@ -28,6 +28,7 @@ const [activeMenu,setActiveMenu] = useState(false)
     cookies.remove('_auth_token', { path: '/' });
     cookies.remove('_auth_role', { path: '/' });
     cookies.remove("_auth_club", { path: '/' });
+    cookies.remove("_auth_name", { path: '/' });
     window.location.pathname = '/auth/login';
     // Additional actions or redirection after removing cookies
     setActiveMenu(false);

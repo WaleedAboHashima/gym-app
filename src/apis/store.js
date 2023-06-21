@@ -20,13 +20,13 @@ import ChangeIconReducer from "./admin/ChangeIcon";
 import ChangeLogoReducer from "./admin/ChangeLogo";
 import AddBannerReducer from "./admin/AddBanner";
 import AppDesignReducer from "./admin/AppDesign";
-import SearchClubReducer from "./user/SearchClub";
+import SearchClubNameReducer from "./user/SearchByName";
 import EditPersonalClubReducer from "./clubs/EditPersonalClub"
 import AddSubReducer from "./clubs/AddSubscription"
 import ConfirmPaymentReducer from "./user/ConfirmPayment"
 import ClubAuthReducer from "./user/GetClubAuth"
-import SearchByName from "./user/SearchByName";
-import FilterClubsReducer from "./user/FilterClubs";
+import NearbyFilterReducer from "./user/NearbyFilter";
+import GetPLayerReducer from "./clubs/GetPlayer"
 export default configureStore({
   reducer: {
     MakeSub: SubReducer,
@@ -36,7 +36,8 @@ export default configureStore({
     Register: RegisterReducer,
     GetClubs: AllClubsReducer,
     GetClub: GetClubReducer,
-    SearchClub: SearchClubReducer,
+    NearbyClubsName: NearbyFilterReducer,
+    SearchName: SearchClubNameReducer,
     ConfirmPayment: ConfirmPaymentReducer,
     ClubAuth: ClubAuthReducer,
     //Admin
@@ -57,7 +58,6 @@ export default configureStore({
     //Clubs
     EditPersonalClub: EditPersonalClubReducer,
     AddSub: AddSubReducer,
-    SearchName:SearchByName,
-    FilterClubs: FilterClubsReducer,
+    GetPLayer: GetPLayerReducer,
   },
 });

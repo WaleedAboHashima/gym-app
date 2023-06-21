@@ -235,8 +235,8 @@ function App() {
             <Route path="/club/verify_player" element={<VerifyPlayer />} />
 
             <Route
-              path="/club/player"
-              element={<PlayerCard clubsData={clubsData} />}
+              path="/club/player/:code"
+              element={<PlayerCard />}
             />
           </>
         ) : (

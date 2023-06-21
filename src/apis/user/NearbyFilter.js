@@ -2,15 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import Cookies from "universal-cookie";
 
-const api = `https://gyms-s47e.onrender.com/user/clubs/filter?lat=${
-  localStorage.getItem("lat")
-    ? localStorage.getItem("lat")
-    : "30.452223906834412"
-}&long=${
-  localStorage.getItem("long")
-    ? localStorage.getItem("long")
-    : "31.18772896361782"
-}&filter=`;
+const api = 'https://gyms-s47e.onrender.com/user/clubs/filter?filter=nearby&';
 
 const initialState = {
   data: [],
@@ -20,11 +12,11 @@ const initialState = {
   loading: false,
 };
 
-export const FilterClubsHandler = createAsyncThunk(
-  "FilterClubsSlice/FilterClubsHandler",
+export const NearbyClubsHandler = createAsyncThunk(
+  "NearbyClubsSlice/NearbyClubsHandler",
   async (arg) => {
     try {
-      const response = await axios.get(api + arg.filter);
+      const response = await axios.get(`${api}lat=${arg.lat}&long=${arg.long}`);
       return {
         data: response.data,
         status: response.status,
@@ -38,12 +30,12 @@ export const FilterClubsHandler = createAsyncThunk(
   }
 );
 
-const FilterClubs = createSlice({
-  name: "FilterClubsSlice",
+const NearbyClubsSlice = createSlice({
+  name: "NearbyClubsSlice",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(FilterClubsHandler.fulfilled, (state, action) => {
+    builder.addCase(NearbyClubsHandler.fulfilled, (state, action) => {
       state.loading = true;
       switch (action.payload.status) {
         case 200:
@@ -69,14 +61,14 @@ const FilterClubs = createSlice({
           break;
       }
     });
-    builder.addCase(FilterClubsHandler.rejected, (state) => {
+    builder.addCase(NearbyClubsHandler.rejected, (state) => {
       state.data = [];
       state.loading = false;
       state.status = 500;
       state.error = "Server Error";
       state.state = "Rejected";
     });
-    builder.addCase(FilterClubsHandler.pending, (state) => {
+    builder.addCase(NearbyClubsHandler.pending, (state) => {
       state.loading = true;
       state.data = [];
       state.error = "";
@@ -86,4 +78,4 @@ const FilterClubs = createSlice({
   },
 });
 
-export default FilterClubs.reducer;
+export default NearbyClubsSlice.reducer;

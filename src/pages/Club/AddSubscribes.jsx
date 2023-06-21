@@ -66,7 +66,6 @@ const AddSubscribes = () => {
                     }}
                     className="relative w-1/4 flex flex-col items-center justify-center rounded-lg p-5"
                   >
-                    <BiPencil className="bg-white border-black borderr-2 rounded-full text-xl absolute right-0 top-0 cursor-pointer hover:scale-125 transition-all" />
                     <BiBlock
                       onClick={() => handleDelete(sub._id)}
                       className="text-white bg-red-700 border-black borderr-2 rounded-full text-xl absolute left-0 bottom-0 rotate-90 cursor-pointer hover:scale-125 transition-all"
