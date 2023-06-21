@@ -27,6 +27,7 @@ import ConfirmPaymentReducer from "./user/ConfirmPayment"
 import ClubAuthReducer from "./user/GetClubAuth"
 import NearbyFilterReducer from "./user/NearbyFilter";
 import GetPLayerReducer from "./clubs/GetPlayer"
+import SearchClubReducer from "./user/SearchClub"
 export default configureStore({
   reducer: {
     MakeSub: SubReducer,
@@ -59,5 +60,6 @@ export default configureStore({
     EditPersonalClub: EditPersonalClubReducer,
     AddSub: AddSubReducer,
     GetPLayer: GetPLayerReducer,
+    SearchClub: SearchClubReducer,
   },
 });

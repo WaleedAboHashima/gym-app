@@ -1,9 +1,12 @@
 import React,{useState,useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
+import Cookies from 'universal-cookie'
 
 const Sidebar = () => {
   const [activeSide, setActiveSide] = useState("")
   const navigate = useNavigate()
+  const cookies = new Cookies();
+
   useEffect(() => {
     if (window.location.pathname === "/admin/add_club") setActiveSide("add_club")
     else if (window.location.pathname === "/admin/uses") setActiveSide("uses")
@@ -25,7 +28,7 @@ const Sidebar = () => {
       <div className='w-fit min-h-screen max-h-full md:flex flex-col bg-neutral-700 py-10 hidden sticky'>
       <div className='flex flex-col gap-y-5 w-full justify-center items-center'>
         <img src='/assets/pic.png' alt='admin img' className='w-1/3 '/>
-        <span className='lg:text-4xl md:text-2xl text-xl text-white'>اسم الادمن</span>      
+        <span className='lg:text-4xl md:text-2xl text-xl text-white'>{cookies.get('_auth_name')}</span>      
       </div>
       <div className='flex flex-col gap-y-10 p-10 '>
           <span className={`lg:text-3xl md:text-xl text-lg w-full text-right  hover:bg-neutral-400 cursor-pointer px-3 py-2 ${activeSide ==="clubs" ? "bg-white text-black  transition-all " :"text-white"}`} onClick={()=>navigate("/admin/clubs")}>التحكم بالنوادي</span>

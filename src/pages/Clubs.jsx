@@ -10,6 +10,8 @@ const Clubs = () => {
   const [search, setSearch] = useState("");
   const [results, setResults] = useState([]);
   const [clubs, setClubs] = useState([]);
+  const [filter, setFilter] = useState([]);
+  const [data, setSortedData] = useState();
   const [nearbyResults, setNearbyResults] = useState([]);
   const stateClubs = useSelector((state) => state.GetClubs);
   const stateSearch = useSelector((state) => state.SearchName);
@@ -19,7 +21,6 @@ const Clubs = () => {
     dispatch(GetClubsHandler()).then((res) => {
       if (res.payload.data) {
         setClubs(res.payload.data.Clubs);
-        console.log(clubs);
       }
     });
   }, [dispatch]);
@@ -36,6 +37,22 @@ const Clubs = () => {
       }
     });
   };
+
+  const handleSort = (event) => {
+    const option = event.target.value;
+    setFilter(option);
+    switch (option) {
+      case 'الاحدث':
+        setSortedData([...clubs].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
+        break;
+      case 'الاقدم':
+        setSortedData([...clubs].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)));
+        break;
+      default:
+        setSortedData(clubs);
+        break;
+    }
+  };
   const handleLocation = () => {
     dispatch(NearbyClubsHandler({ lat, long })).then((res) => {
       if (res.payload.data) {
@@ -47,12 +64,12 @@ const Clubs = () => {
       }
     });
   };
-
+  console.log(data)
   return (
     <>
       <div className="flex flex-row p-5 md:justify-around justify-between items-center">
         <div className=" md:flex-1 flex-2 flex gap-5 items-center justify-center">
-          <select className="text-xl border-2 border-gray-500  text-black px-3 py-1 rounded-xl flex items-center text-right ">
+          <select value={filter} onChange={handleSort} className="text-xl border-2 border-gray-500  text-black px-3 py-1 rounded-xl flex items-center text-right ">
             <option>الاحدث</option>
             <option>الاقدم</option>
             <option>سنوي</option>

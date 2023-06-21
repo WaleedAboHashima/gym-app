@@ -219,7 +219,7 @@ const Home = ({ bar }) => {
                       type="text"
                       dir="rtl"
                       placeholder="الدوله"
-                      className="text-right md:w-96 px-2 py-3 md:text-xl rounded-md"
+                        className="text-right w-32 md:w-96 px-2 py-3 md:text-xl rounded-md"
                     >
                       <option defaultChecked value={""}>
                         اختر الدوله
@@ -238,7 +238,7 @@ const Home = ({ bar }) => {
                       onChangeCapture={(e) => setCity(e.target.value)}
                       type="text"
                       placeholder="المدينه"
-                      className="text-right md:w-96 px-2 py-3 md:text-xl rounded-md"
+                      className="text-right w-32 md:w-96 px-2 py-3 md:text-xl rounded-md"
                       ref={countryInput}
                     >
                       <option defaultChecked value={""}>
@@ -257,7 +257,7 @@ const Home = ({ bar }) => {
                         });
                       }}
                     >
-                        {state && state.loading ? <CircularProgress size={30} /> : "اخترالمدينه" }
+                        {state.loading ? <CircularProgress size={30} /> : "اخترالمدينه" }
                     </button>
                   </form>
                 )}

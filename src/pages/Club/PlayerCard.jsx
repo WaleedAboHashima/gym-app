@@ -7,18 +7,17 @@ import { Backdrop, CircularProgress } from "@mui/material";
 const PlayerCard = () => {
   const { code } = useParams();
   const [club, setClub] = useState("");
-  const playerData = useSelector((state) => state.GetPLayer);
+  const state = useSelector((state) => state.GetPLayer);
   const dispatch = useDispatch();
-  console.log(playerData)
   useEffect(() => {
     dispatch(GetPlayerHandler({ code }));
   }, [dispatch]);
   return (
     <div className="flex justify-center items-center md:my-10  ">
-      {playerData.loading ? (
+      {state.loading ? (
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={playerData.loading}
+          open={state.loading}
         >
           <CircularProgress color="inherit" />
         </Backdrop>
@@ -53,10 +52,12 @@ const PlayerCard = () => {
                   }}
                 >
                   <span className="md:text-3xl text-lg text-white ">
-                    {/*username*/} {playerData ? playerData.player.user.username : ""}
+                    {/*username*/}{" "}
+                    {state.data.player ? state.data.player.user.username : ""}
                   </span>
                   <span className="md:text-3xl text-lg text-white">
-                    {/*userId*/} 521xa4
+                    {/*userId*/}{" "}
+                    {state.data.player ? state.data.player.code : ""}
                   </span>
                 </div>
               </div>
@@ -90,35 +91,40 @@ const PlayerCard = () => {
                       باقه الاشتراك
                     </span>
                     <span className="md:text-xl text-sm text-white w-full text-center">
-                      شهريا
+                      {state.data.play
+                        ? state.data.player.subscription.name
+                        : ""}
                     </span>
                     <span className="md:text-xl text-sm text-white w-full text-center">
-                      $ 340
+                      ${state.data.player
+                        ? state.data.player.subscription.price
+                        : ""}
                     </span>
                   </div>
                   <div className="grid grid-cols-2 justify-center items-stretch ">
                     <span className="text-white md:text-xl text-sm  border-2 border-white px-2 py-1">
-                      عامر حسن النخال
+                      {state.data.player ? state.data.player.user.username : ""}
                     </span>
                     <span className="text-white md:text-xl text-sm  border-2 border-white px-2 py-1">
                       {" "}
                       الاسم{" "}
                     </span>
                     <span className="text-white md:text-xl text-sm  border-2 border-white px-2 py-1">
-                      x123ab
+                    {state.data.player ? state.data.player.user.code : ""}
                     </span>
                     <span className="text-white md:text-xl text-sm  border-2 border-white px-2 py-1">
                       {" "}
                       رقم الاشتراك{" "}
                     </span>
                     <span className="text-white md:text-xl text-sm  border-2 border-white px-2 py-1">
-                      2023-6-15
+                    {state.data.player ? state.data.player.start_date : ""}
                     </span>
                     <span className="text-white md:text-xl text-sm  border-2 border-white px-2 py-1">
                       تاريخ الاشتراك
                     </span>
                     <span className="text-white md:text-xl text-sm  border-2 border-white px-2 py-1">
-                      2023-7-15
+                    {state.data.player ? state.data.player.end_date : ""}
+
                     </span>
                     <span className="text-white md:text-xl text-sm  border-2 border-white px-2 py-1">
                       تاريخ الانتهاء

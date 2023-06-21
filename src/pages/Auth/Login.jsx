@@ -26,6 +26,7 @@ function Login() {
           if (state.data.user.role === "admin") {
             cookies.set("_auth_token", state.data.token, { path: "/" });
             cookies.set("_auth_role", "65100109105110", { path: "/" });
+            cookies.set("_auth_name", state.data.user.username, { path: "/" });
             window.location.pathname = '/admin/clubs';
             break;
           }
