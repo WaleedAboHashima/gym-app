@@ -4,13 +4,15 @@ import { useParams } from "react-router-dom";
 import { GetClubHandler } from "./../apis/user/GetClub";
 import Cookies from "universal-cookie";
 import { ClubAuthHandler } from './../apis/user/GetClubAuth';
+import { Backdrop, CircularProgress } from "@mui/material";
 const Club = () => {
   const { id } = useParams();
   const [club, setClub] = useState();
   const [sub, setSub] = useState();
   const dispatch = useDispatch();
   const cookies = new Cookies();
-  
+  const authloading = useSelector(state => state.GetClub.loading);
+  const mainloading = useSelector(state => state.ClubAuth.loading);
   useEffect(() => {
     dispatch(ClubAuthHandler({ id, lat: localStorage.getItem("lat"), long: localStorage.getItem("long") })).then((res) => {
       if (res.payload.data) {
@@ -30,11 +32,12 @@ const Club = () => {
 
   return (
     <div className="flex justify-center items-center md:my-10  ">
+      {!mainloading || !authloading ? (
       <div className="flex flex-row-reverse bg-gray-50 shadow-xl rounded-3xl p-5 md:w-9/12 w-full">
         <div className="flex flex-col flex-1 gap-y-10  items-end  py-5">
           <div className="flex w-full justify-between text-right">
-            <div className="flex-1">
-              <img src={club && club.logo} alt="النادي" className="w-full " />
+            <div className="flex-1 w-full flex justify-center items-center">
+              <img src={club && club.logo} alt="النادي" className="w-1/2 rounded-lg" />
             </div>
             <div className="flex flex-col gap-y-2 flex-1 justify-evenly">
               <div className="flex flex-col">
@@ -91,7 +94,7 @@ const Club = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center w-full">
             <div className="flex justify-center items-center sm:flex-1 text-center">
               <button
                 style={!cookies.get("_auth_token") ? {display:"block"} :cookies.get('_auth_role') === "6710811798" ? {display:"block"}:{display:"none"}}
@@ -103,20 +106,27 @@ const Club = () => {
                 { !cookies.get("_auth_token") ? <span>انضم لنا</span> :cookies.get('_auth_role') === "6710811798" ? <span>اشترك</span>:<span></span>}
               </button>
             </div>
-            <div className="flex flex-col sm:mt-10 mt-0  items-end flex-1 ">
+            <div className="flex flex-col sm:mt-10 mt-0  items-end sm:flex-1 ">
               <span className="sm:text-4xl mb-3 text-lg">
                 : صور داخل النادي
               </span>
               <div className="flex gap-x-5 items-start justify-end ">
                 {club &&
                   club.images.map((image) => (
-                    <img width="40%" src={image} alt="image" />
+                    <img  className="w-1/2 h-36 rounded-lg" src={image} alt="image" />
                   ))}
               </div>
             </div>
           </div>
         </div>
       </div>
+        
+      ) : <Backdrop
+      sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      open={mainloading || authloading}
+    >
+      <CircularProgress color="inherit" />
+    </Backdrop>}
     </div>
   );
 };

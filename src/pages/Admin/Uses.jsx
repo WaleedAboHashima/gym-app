@@ -3,6 +3,7 @@ import Sidebar from "../../components/AdminSidebar";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik } from "formik";
 import { ChangeUsesHandler } from "../../apis/admin/ChangeUses";
+import { CircularProgress } from "@mui/material";
 
 const Uses = () => {
   const [uses, setUses] = useState();
@@ -23,7 +24,7 @@ const Uses = () => {
         setError("يوجد خطأ");
         break;
       case 500:
-        setError("خطأ في السيرفر");
+        setError("يوجد خطأ");
         break;
       default:
         setError("");
@@ -57,7 +58,7 @@ const Uses = () => {
                 type="submit"
                 className="text-2xl rounded-lg bg-gray-600 px-5 py-3 hover:scale-125 transition-all text-white place-self-center  cursor-pointer w-fit mb-5"
               >
-                تغيير
+                {state.loading ? <CircularProgress size={30} style={{color: 'white'}} /> : "تغيير"}
               </button>
               <div className="text-red-500 font-bold">{error}</div>
             </form>

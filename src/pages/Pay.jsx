@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GetClubHandler } from "../apis/user/GetClub";
 import { MakeSubsHandler } from "./../apis/user/SubSelection";
 import Cookies from "universal-cookie";
+import { CircularProgress } from "@mui/material";
 const Pay = () => {
   const { id } = useParams();
   const [sub, setSub] = useState();
@@ -18,7 +19,7 @@ const Pay = () => {
     dispatch(MakeSubsHandler({ id })).then((res) => {
       if (res.payload.data) {
         cookies.set("payment", true, { path: "/" });
-        cookies.set("subId" , id, { path: "/" });
+        cookies.set("subId", id, { path: "/" });
         window.open(res.payload.data.approvalUrl, "_blank");
       }
     });
@@ -100,7 +101,7 @@ const Pay = () => {
           className="text-2xl  flex items-center gap-x-3 justify-around py-3 px-5 rounded-md text-white hover  transition-all hover:scale-105"
           onClick={() => (subId ? handlePaypal(subId) : "")}
         >
-          <BsPaypal style={{ color: "#009cd3" }} />
+          {state.loading ? <CircularProgress size={30} style={{color: 'white'}} /> : <BsPaypal style={{ color: "#009cd3" }} />}
           <span>الدفع عن طريق </span>
         </button>
         <button

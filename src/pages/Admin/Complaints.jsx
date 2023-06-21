@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import Sidebar from '../../components/AdminSidebar'
 import { useDispatch, useSelector } from 'react-redux'
 import { GetComplaintshandler } from '../../apis/admin/Complaints';
+import { CircularProgress } from '@mui/material';
 
 const Complaints = () => {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ const Complaints = () => {
               <span className='md:text-xl text-xs overflow-hidden  text-center text-white border-r-2 border-b-2 px-3 py-3 border-white border-dashed'>{ q.name}</span>
           </div>
             )
-          }) : <div className='flex justify-center text-white font-bold items-center h-full'>لا توجد شكاوي</div> : <div className='flex justify-center text-white font-bold items-center h-full'>Loading...</div>}
+          }) : <div className='flex justify-center text-white font-bold items-center h-full'>لا توجد شكاوي</div> : <div className='flex justify-center font-bold items-center h-full'><CircularProgress style={{color: 'white'}} /></div>}
       </div>
         </div>
             <Sidebar/>

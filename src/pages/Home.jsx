@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FaAngleLeft } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { GetClubsHandler } from "./../apis/user/GetClubs";
 import { Formik } from "formik";
 import { SearchClubHandler } from "../apis/user/SearchClub";
+import { CircularProgress } from "@mui/material";
 const Home = ({ bar }) => {
   const [visible, setVisible] = useState(0);
   const [data, setData] = useState({
@@ -17,7 +18,7 @@ const Home = ({ bar }) => {
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
   const dispatch = useDispatch();
-
+  const state = useSelector(state => state.SearchClub)
   const handleForm = () => {
     dispatch(SearchClubHandler({ country: data.country, city: data.city, gender: data.gender })).then((res) => {
       if (res.payload.data) {
@@ -256,7 +257,7 @@ const Home = ({ bar }) => {
                         });
                       }}
                     >
-                      اخترالمدينه
+                        {state.loading ? <CircularProgress size={30} /> : "اخترالمدينه" }
                     </button>
                   </form>
                 )}

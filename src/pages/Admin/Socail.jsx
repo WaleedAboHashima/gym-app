@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ChangeSocialsHandler } from "../../apis/admin/ChangeSocial";
 import { Formik } from "formik";
 import { ChangeContactHandler } from "../../apis/admin/ChangeContact";
+import { Backdrop, CircularProgress } from "@mui/material";
 const Socail = () => {
   const [facebook, setFacebook] = useState();
   const [whatsapp, setWhatsapp] = useState();
@@ -16,10 +17,10 @@ const Socail = () => {
   const [error, setError] = useState();
   const dispatch = useDispatch();
   const state = useSelector((state) => state.ChangeSocials);
-  const contact = useSelector((state) => state.ChangeContact)
+  const contact = useSelector((state) => state.ChangeContact);
 
   const handleForm = () => {
-    dispatch(ChangeContactHandler({phone1, phone2, location1, location2}))
+    dispatch(ChangeContactHandler({ phone1, phone2, location1, location2 }));
   };
 
   const handleSubmit = (type, value) => {
@@ -28,20 +29,20 @@ const Socail = () => {
 
   const handleChangeStatus = () => {
     if (contact.status)
-    switch (contact.status) {
-      case 200:
-        setError("تم التغير بنجاح");
-        break;
-      case 400:
-        setError("يوجد خطأ");
-        break;
-      case 500:
-        setError("خطأ في السيرفر");
-        break;
-      default:
-        setError("");
-    }
-  }
+      switch (contact.status) {
+        case 200:
+          setError("تم التغير بنجاح");
+          break;
+        case 400:
+          setError("يوجد خطأ");
+          break;
+        case 500:
+          setError("خطأ في السيرفر");
+          break;
+        default:
+          setError("");
+      }
+  };
 
   const handleStatus = () => {
     if (state.status)
@@ -66,6 +67,16 @@ const Socail = () => {
 
   return (
     <div className="flex ">
+      {state.loading ? (
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={state.loading}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      ) : (
+        ""
+      )}
       <div className="flex flex-1  min-h-screen flex-col items-end bg-slate-100">
         <span className="text-2xl text-center bg-neutral-700 px-5 py-3  text-white  w-full ">
           مواقع التواصل
@@ -167,7 +178,12 @@ const Socail = () => {
                     className="w-1/2 px-5 py-3 xl:w-1/6 rounded-xl text-right"
                   />
                 </div>
-                <button type="submit" className="mr-2 text-white bg-gray-600 text-lg w-20 h-10 rounded-md hover:scale-125 transition-all cursor-pointer">تغيير</button>
+                <button
+                  type="submit"
+                  className="mr-2 text-white bg-gray-600 text-lg w-20 h-10 rounded-md hover:scale-125 transition-all cursor-pointer"
+                >
+                  {contact.loading ? <CircularProgress sx={{color: 'white'}} size={25} /> : "تغيير"}
+                </button>
               </form>
             )}
           </Formik>

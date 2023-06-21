@@ -4,8 +4,9 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { AiOutlineClose } from "react-icons/ai";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { Formik } from "formik";
-import { useDispatch } from "react-redux";
-import { AddClubHandler } from './../../apis/admin/AddClub';
+import { useDispatch, useSelector } from "react-redux";
+import { AddClubHandler } from "./../../apis/admin/AddClub";
+import { CircularProgress } from "@mui/material";
 
 const AddClub = () => {
   const [cuurentLocation, setCurrentLocation] = useState({ lat: 0, long: 0 });
@@ -22,8 +23,10 @@ const AddClub = () => {
   const [imgs, setImgs] = useState([]);
   const [logo, setLogo] = useState();
   const [clubImage, setClubImage] = useState([]);
+  const [error, setError] = useState("");
   const dispatch = useDispatch();
   const imgfiles = useRef();
+  const state = useSelector((state) => state.AddClub);
   ///////////
 
   const handleForm = () => {
@@ -37,13 +40,22 @@ const AddClub = () => {
     formData.append("long", selection.long);
     formData.append("from", from);
     formData.append("to", to);
-    {clubImage && clubImage.forEach(img => formData.append("clubImg", img))}
-    formData.append("logo", logo)
+    {
+      clubImage && clubImage.forEach((img) => formData.append("clubImg", img));
+    }
+    formData.append("logo", logo);
     formData.append("days", days);
     formData.append("commission", commission);
-    console.log(formData)
-    dispatch(AddClubHandler(formData));
-    
+    console.log(formData);
+    dispatch(AddClubHandler(formData)).then((res) => {
+      setError("");
+      if (res.payload.status)
+        if (res.payload.status === 200) {
+          window.location.reload();
+        } else {
+          setError("هناك خطأ");
+        }
+    });
   };
 
   ////////////
@@ -59,11 +71,9 @@ const AddClub = () => {
       key: index++,
       data: file,
     }));
-    const eachFile = updatedFiles.map(file => file.data)
+    const eachFile = updatedFiles.map((file) => file.data);
     setClubImage(eachFile);
-    
   };
-
 
   const handleImgChange = (imgs) => {
     let fileNames = [];
@@ -130,9 +140,9 @@ const AddClub = () => {
                   type="text"
                   className="border-2 text-right border-black  px-3 py-1 text-xl"
                 >
-                  <option value={'male'}>ذكور</option>
-                  <option value={'female'}>اناث</option>
-                  <option value={'both'}>مشترك</option>
+                  <option value={"male"}>ذكور</option>
+                  <option value={"female"}>اناث</option>
+                  <option value={"both"}>مشترك</option>
                 </select>
                 <select
                   name="days"
@@ -257,7 +267,10 @@ const AddClub = () => {
                   multiple
                   className=" text-sm w/fit text-white bg-neutral-700 border-2 border-black rounded-md p-2"
                   ref={imgfiles}
-                  onChange={(e) => { handleImgChange(e.target.files); handleClubImages(e) }}
+                  onChange={(e) => {
+                    handleImgChange(e.target.files);
+                    handleClubImages(e);
+                  }}
                 />
                 <div className="flex flex-col justify-center  items-center my-3">
                   {imgs.length ? (
@@ -323,14 +336,43 @@ const AddClub = () => {
               <div className="flex w-full items-center justify-center ">
                 <button
                   className={`${
-                    selection.lat && name && email&&password&&description&&gender&&from&&to&&days&&commission
+                    selection.lat &&
+                    name &&
+                    email &&
+                    password &&
+                    description &&
+                    gender &&
+                    from &&
+                    to &&
+                    days &&
+                    commission
                       ? "  text-white bg-green-600 text-2xl my-5 px-5 py-2 w-1/4 hover:scale-125 transition-all  rounded-lg "
                       : " bg-red-500 pointer-events-none text-white text-2xl my-5 px-5 py-2 w-1/4 "
                   }" `}
                 >
-                  {selection.lat && name && email&&password&&description&&gender&&from&&to&&days&&commission ? <span>اضافه</span>:<span>اكمل بيانات النادي</span>}
+                  {selection.lat &&
+                  name &&
+                  email &&
+                  password &&
+                  description &&
+                  gender &&
+                  from &&
+                  to &&
+                  days &&
+                  commission ? (
+                    <span>
+                      {state.loading ? (
+                        <CircularProgress sx={{ color: "white" }} size={30} />
+                      ) : (
+                        "اضافه"
+                      )}
+                    </span>
+                  ) : (
+                    <span>اكمل بيانات النادي</span>
+                  )}
                 </button>
               </div>
+              <div className="text-center text-red-500 font-bold">{error}</div>
             </div>
           </form>
         )}

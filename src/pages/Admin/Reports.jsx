@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/AdminSidebar";
 import { useDispatch, useSelector } from "react-redux";
 import { GetReportsHandler } from "../../apis/admin/Reports";
+import { CircularProgress } from "@mui/material";
 
 const Reports = () => {
   const dispatch = useDispatch();
@@ -66,7 +67,7 @@ const Reports = () => {
               );
             })
           ) : (
-            <div>Loading.</div>
+            <div style={{height: '100%', width: '100%'}} className="flex justify-center items-center"><CircularProgress sx={{color: 'white'}} /></div>
           )}
         </div>
       </div>

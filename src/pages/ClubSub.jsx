@@ -19,15 +19,15 @@ const ClubSub = ({ clubsData }) => {
   }, [dispatch]);
   return (
     <div className="flex justify-center items-center md:my-10  ">
-      <div className="flex flex-row-reverse   bg-gray-50 shadow-xl rounded-3xl sm:p-5 p-3 md:w-9/12 w-full">
-        <div className="flex flex-col flex-1 gap-y-10  items-end  py-5">
-          <div className="flex  justify-between text-right">
-            <div className="flex-1" style={{width: '200px', height: '200px'}}>
+      <div className="flex flex-row-reverse h-screen   bg-gray-50 shadow-xl rounded-3xl sm:p-5 p-3 md:w-9/12 w-full">
+        <div className="flex flex-col flex-1 gap-y-10   items-end  py-5">
+          <div className="flex  justify-between text-right w-full gap-x-5">
+            <div className="flex-1 flex justify-center items-center " >
               <img
                 
                 src={state.club ? state.club.logo : ""}
                 alt="النادي"
-                className="w-full "
+                className="w-full rounded-lg lg:w-1/3"
               />
             </div>
             <div className="flex flex-col gap-y-2 flex-1 justify-evenly">
@@ -37,10 +37,10 @@ const ClubSub = ({ clubsData }) => {
                   انتا مشترك بنادي ( {state.data ? state.data.club_name : ""} )
                 </span>
               </div>
-              <div className="flex flex-col  items-end">
+              <div className="flex flex-col  items-end w-full">
                 <span className="md:text-4xl text-xl mb-2">بطاقه التعريف</span>
                 <div
-                  className="text-gray-500 text-lg flex flex-col justify-center items-center gap-y-10 py-5 rounded-xl w-2/3"
+                  className="text-gray-500 text-lg flex flex-col justify-center items-center gap-y-10 py-5 rounded-xl sm:w-2/3 w-full"
                   style={{
                     backgroundImage: "url('/assets/main-img-blured.jpg')",
                     backgroundPosition: "center",
@@ -58,7 +58,7 @@ const ClubSub = ({ clubsData }) => {
             </div>
           </div>
           <div className="flex flex-col items-end text-right w-full ">
-            <div className="flex sm:flex-row flex-col-reverse justify-between w-full">
+            <div className="flex lg:flex-row flex-col-reverse justify-between w-full gap-x-5">
               <div className=" flex-1 flex flex-col justify-center items-center w-full sm:mt-0 mt-5 ">
                 <span className="md:text-4xl text-xl">:العنوان</span>
                 <span className="md:text-xl text-lg text-gray-500">
@@ -76,16 +76,17 @@ const ClubSub = ({ clubsData }) => {
                 </button>
               </div>
               <div
-                className="flex flex-row flex-2 w-fit mt-10 sm:-mr-4 rounded-md px-10 py-5"
+                className="flex flex-row flex-1 md:w-fit mt-10 sm:-mr-4 rounded-md w-full self-center mb-5 gap-x-5"
                 style={{
                   backgroundImage: "url('/assets/main-img-blured.jpg')",
                   backgroundPosition: "center",
                   backgroundSize: "cover",
                 }}
               >
-                <div className="flex gap-x-5  ">
+                <div className="flex items-center justify-around w-full py-5 lg:px-5 lg:gap-x-5 ">
+                  
                   <div
-                    className="flex-1 w-fit px-5 py-2 flex flex-col  justify-center items-center rounded-md border-white border-4"
+                    className="lg:flex-1 w-fit px-5 py-2 flex flex-col  justify-center items-center rounded-md border-white border-4"
                     style={{
                       backgroundImage: "url('/assets/main-img-blured.jpg')",
                       backgroundSize: "cover",
@@ -129,9 +130,7 @@ const ClubSub = ({ clubsData }) => {
                   </div>
                 </div>
               </div>
-              <span className="md:text-4xl text-xl mb-2 ml-2">
-                بيانات الاشتراك
-              </span>
+
             </div>
           </div>
         </div>

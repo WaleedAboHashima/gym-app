@@ -3,6 +3,7 @@ import Sidebar from "../../components/AdminSidebar";
 import { useDispatch, useSelector } from "react-redux";
 import { AddQuestionsHandler } from "./../../apis/admin/AddQuestion";
 import { Formik } from "formik";
+import { CircularProgress } from "@mui/material";
 
 const UsersQuestions = () => {
   const dispatch = useDispatch();
@@ -78,7 +79,7 @@ const UsersQuestions = () => {
                   ></textarea>
                 </div>
                 <button type="submit" className="md:text-2xl text-lg rounded-lg bg-neutral-700 px-5 py-3 hover:scale-125 transition-all text-white place-self-start  cursor-pointer w-fit sm:mt-5 mt-20  ml-5">
-                  اضف السؤال
+                  {state.loading ? <CircularProgress style={{color: 'white'}} size={30} /> : "اضف السؤال"}
                 </button>
                 <div className="text-red-500 font-bold">{error}</div>
               </div>

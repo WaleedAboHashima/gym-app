@@ -3,6 +3,7 @@ import Sidebar from "../../components/AdminSidebar";
 import { Formik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { ChangePaypalHandler } from "../../apis/admin/Paypal";
+import { CircularProgress } from "@mui/material";
 
 const Payments = () => {
   const [mode, setMode] = useState("Live");
@@ -139,7 +140,7 @@ const Payments = () => {
                 type="submit"
                 className="text-white bg-green-600 text-xl  px-5 py-2 w-fit rounded-lg hover:scale-125 transition-all"
               >
-                تطبيق التغيرات
+                { state.loading ? <CircularProgress size={30} sx={{color: 'white'}} /> : "تطبيق التغيرات"}
               </button>
               <div className="text-red-500 font-bold text-center">{error}</div>
             </form>

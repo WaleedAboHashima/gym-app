@@ -25,6 +25,8 @@ import EditPersonalClubReducer from "./clubs/EditPersonalClub"
 import AddSubReducer from "./clubs/AddSubscription"
 import ConfirmPaymentReducer from "./user/ConfirmPayment"
 import ClubAuthReducer from "./user/GetClubAuth"
+import SearchByName from "./user/SearchByName";
+import FilterClubsReducer from "./user/FilterClubs";
 export default configureStore({
   reducer: {
     MakeSub: SubReducer,
@@ -55,5 +57,7 @@ export default configureStore({
     //Clubs
     EditPersonalClub: EditPersonalClubReducer,
     AddSub: AddSubReducer,
+    SearchName:SearchByName,
+    FilterClubs: FilterClubsReducer,
   },
 });
