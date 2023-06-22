@@ -46,11 +46,10 @@ const AddClub = () => {
     formData.append("logo", logo);
     formData.append("days", days);
     formData.append("commission", commission);
-    console.log(formData);
     dispatch(AddClubHandler(formData)).then((res) => {
       setError("");
       if (res.payload.status)
-        if (res.payload.status === 200) {
+        if (res.payload.status === 201) {
           window.location.reload();
         } else if (res.payload.status === 409) {
           setError("يوجد نادي بهذه البيانات");

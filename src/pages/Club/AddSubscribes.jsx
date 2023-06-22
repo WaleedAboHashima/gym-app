@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ClubSidebar from "../../components/ClubSidebar";
-import { BiPencil, BiBlock } from "react-icons/bi";
+import { BiBlock } from "react-icons/bi";
 import Cookies from "universal-cookie";
 import { GetClubHandler } from "./../../apis/user/GetClub";
 import { useDispatch } from "react-redux";

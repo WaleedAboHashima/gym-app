@@ -17,7 +17,6 @@ const EditPersonalClub = () => {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [days, setDays] = useState(2);
-  const [commission, setCommission] = useState("");
   const [logo, setLogo] = useState();
   const [clubImage, setClubImage] = useState([]);
   const imgfiles = useRef();
@@ -36,7 +35,6 @@ const EditPersonalClub = () => {
     {clubImage && clubImage.forEach(img => formData.append("clubImg", img))}
     formData.append("logo", logo)
     formData.append("days", days);
-    if (commission) formData.append("commission", commission);
     dispatch(EditPersonalClubHandler(formData)).then((res) => {
       if (res.payload.status === 200) {
         window.location.reload();
@@ -215,20 +213,6 @@ const EditPersonalClub = () => {
                 onChangeCapture={(e) => setDescription(e.target.value)}
                 className="w-full  resize-none border-2 border-black min-h-52 text-right"
               ></textarea>
-            </div>
-            <div className="flex flex-col w-full  px-5 items-end">
-              <span className="text-xl text-right">عموله الموقع</span>
-              <span className="text-md text-right text-gray-500">
-                أدخل عموله الموقع من اشتراك العملاء من النادي
-              </span>
-              <input
-                name="commission"
-                value={values.commission}
-                onChange={handleChange}
-                onChangeCapture={(e) => setCommission(e.target.value)}
-                type="number"
-                className="w-52  resize-none border-2 border-black py-2 text-lg "
-              />
             </div>
             <div className="flex flex-col w-full  px-5">
               <span className="text-xl text-right">صور النادي</span>

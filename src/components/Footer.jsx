@@ -1,12 +1,37 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux';
 import Cookies from 'universal-cookie'
+import { GetRulesHandler } from './../apis/rules';
 
 const Footer = ({rules}) => {
   const cookies = new Cookies();
   const [img, setImg] = useState();
+  const [whatsApp, setWhatsapp] = useState();
+  const [facebook, setFacebook] = useState();
+  const [insta, setInsta] = useState();
+  const dispatch = useDispatch();
   useEffect(() => {
     if (rules) rules.filter(r => r.type === "main_img" && setImg(r))
   }, [rules])
+
+  useEffect(() => {
+    dispatch(GetRulesHandler()).then(res => {
+      if (res.payload.data) {
+        const whatsapp = res.payload.data.rules.filter(
+          (rule) => rule.type === "whatsapp"
+        );
+        const facebook = res.payload.data.rules.filter(
+          (rule) => rule.type === "facebook"
+        );
+        const insta = res.payload.data.rules.filter(
+          (rule) => rule.type === "instagram"
+        );
+        setWhatsapp(whatsapp[0].whatsapp);
+        setFacebook(facebook[0].facebook);
+        setInsta(insta[0].instagram);
+        }
+    }) 
+  }, [dispatch])
     return (
         <div className='flex flex-row-reverse justify-around items-start text-right bg-orange-50 p-10 '>
         <div className='flex flex-col flex-1 text-right items-end gap-y-5 '>
@@ -15,9 +40,9 @@ const Footer = ({rules}) => {
           <span className='text-xl cursor-pointer hover:text-gray-500' >المنصة الإعلامية</span>
           <span className='text-xl cursor-pointer hover:text-gray-500' onClick={()=>window.location.pathname="/contact_us"}>تواصل معنا عبر</span>
           <div className='flex justify-around '>
-            <img src='/assets/facebook.png' alt='facebook' className='md:w-10 md:h-10 w-7 h-7 cursor-pointer' title='facebook'/>
-            <img src='/assets/instagram.png' alt='instagram' className='md:w-10 md:h-10 w-7 h-7cursor-pointer 'title='instagram' />
-            <img src='/assets/whatsapp.png' alt='whatsapp' className='md:w-10 md:h-10 w-7 h-7 cursor-pointer' title='whatsapp'/>
+            <a href={facebook} target='_blank'><img src='/assets/facebook.png' alt='facebook' className='md:w-10 md:h-10 w-7 h-7 cursor-pointer' title='facebook'/></a>
+            <a href={insta} target='_blank'><img src='/assets/instagram.png' alt='instagram' className='md:w-10 md:h-10 w-7 h-7cursor-pointer 'title='instagram' /></a>
+            <a href={`https://wa.me/${whatsApp}`}><img src='/assets/whatsapp.png' alt='whatsapp' className='md:w-10 md:h-10 w-7 h-7 cursor-pointer' title='whatsapp'/></a>
           </div>
           </div>
         <div className='md:flex  hidden flex-col flex-1 text-right items-end gap-y-5 '>

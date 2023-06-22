@@ -64,16 +64,6 @@ const ClubSub = ({ clubsData }) => {
                 <span className="md:text-xl text-lg text-gray-500">
                   {state.data ? state.data.club_location : ""}
                 </span>
-                <button
-                  className="bg-red-700 text-white rounded-md md:text-xl text-lg px-5 py-3 hover:bg-white hover:text-red-700 border-2 border-red-700 transition-all mt-10"
-                  onClick={() =>
-                    (window.location.pathname = `/pay/${
-                      state && state.club._id
-                    }`)
-                  }
-                >
-                  تجديد الاشتراك
-                </button>
               </div>
               <div
                 className="flex flex-row flex-1 md:w-fit mt-10 sm:-mr-4 rounded-md w-full self-center mb-5 gap-x-5"
@@ -140,17 +130,3 @@ const ClubSub = ({ clubsData }) => {
 };
 
 export default ClubSub;
-
-//  <div className='flex justify-between items-center'>
-//                       <div className='flex justify-center items-center flex-1 text-center'>
-//                           <button className='bg-red-700 text-white rounded-md text-xl px-5 py-3 hover:bg-white hover:text-red-700 border-2 border-red-700 transition-all' onClick={()=>window.location.pathname=`/pay/${club.id}`}>تجديد الاشتراك</button>
-//                       </div>
-//                       <div className='flex flex-col mt-10  items-end flex-1'>
-//                             <span className='text-4xl mb-3'>: صور داخل النادي</span>
-//                             <div className='flex gap-x-5 items-start justify-end '>
-//                                 <img src='/assets/club1.jpg' alt='النادي' className='w-1/3'/>
-//                                 <img src='/assets/club2.jpg' alt='النادي' className='w-1/3'/>
-//                                 <img src='/assets/club3.jpg' alt='النادي' className='w-1/3'/>
-//                             </div>
-//                       </div>
-//                   </div>

@@ -92,7 +92,7 @@ const Socail = () => {
             <input
               onChange={(e) => setFacebook(e.target.value)}
               type="text"
-              placeholder="Facebook URL Profile"
+              placeholder="Facebook URL Profile (ex: https://www.facebook.com)"
               className="w-full px-5 py-3 xl:w-1/3 rounded-xl"
             />
           </div>
@@ -106,7 +106,7 @@ const Socail = () => {
             <input
               onChange={(e) => setWhatsapp(e.target.value)}
               type="text"
-              placeholder="WhatsApp Number"
+              placeholder="WhatsApp Number with country code ex: +20123456789"
               className="w-full px-5 py-3 xl:w-1/3 rounded-xl"
             />
           </div>
@@ -120,7 +120,7 @@ const Socail = () => {
             <input
               onChange={(e) => setInstagram(e.target.value)}
               type="text"
-              placeholder="Instgram URL Profile"
+              placeholder="Instgram URL Profile (ex: https://www.instagram.com)"
               className="w-full px-5 py-3 xl:w-1/3 rounded-xl"
             />
           </div>

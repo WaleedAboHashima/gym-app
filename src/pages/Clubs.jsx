@@ -85,15 +85,12 @@ const Clubs = () => {
             onChange={handleSort}
             className="text-xl border-2 border-gray-500  text-black px-3 py-1 rounded-xl flex items-center text-right "
           >
-            <option defaultChecked>فلتر</option>
+            <option defaultChecked>عرض</option>
             <option>الاحدث</option>
             <option>الاقدم</option>
-            <option>سنوي</option>
-            <option>شهري</option>
-            <option>اسبوعي</option>
           </select>
           <FaLocationArrow
-            className="text-4xl border-2 border-gray-500  text-black p-1 rounded-xl cursor-pointer hidden sm:flex"
+            className="text-4xl border-2 border-gray-500  text-black p-1 rounded-xl cursor-pointer sm:flex"
             onClick={() => handleLocation()}
           />
         </div>

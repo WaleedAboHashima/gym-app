@@ -29,6 +29,7 @@ import NearbyFilterReducer from "./user/NearbyFilter";
 import GetPLayerReducer from "./clubs/GetPlayer"
 import SearchClubReducer from "./user/SearchClub"
 import GetClubReportsReducer from "./clubs/GetReports"
+import DeleteQuestionReducer from "./admin/DeleteQuestion"
 export default configureStore({
   reducer: {
     MakeSub: SubReducer,
@@ -57,6 +58,7 @@ export default configureStore({
     Complaints: ComplaintsReducer,
     Paypal: PaypalReducer,
     AddQuestion: AddQuestionReducer,
+    DeleteQuestion: DeleteQuestionReducer,
     //Clubs
     EditPersonalClub: EditPersonalClubReducer,
     AddSub: AddSubReducer,

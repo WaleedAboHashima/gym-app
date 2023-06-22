@@ -454,7 +454,7 @@ const Navbar = ({
                           : "text-white"
                       }`}
                       onClick={() => {
-                        navigate("/about_us");
+                        navigate("/club/verify_player");
                         setBar(false);
                         checkActive();
                       }}
@@ -468,7 +468,7 @@ const Navbar = ({
                           : "text-white"
                       }`}
                       onClick={() => {
-                        navigate("/contact_us");
+                        navigate("/club/report");
                         setBar(false);
                         checkActive();
                       }}
