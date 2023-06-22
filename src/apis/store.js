@@ -28,6 +28,7 @@ import ClubAuthReducer from "./user/GetClubAuth"
 import NearbyFilterReducer from "./user/NearbyFilter";
 import GetPLayerReducer from "./clubs/GetPlayer"
 import SearchClubReducer from "./user/SearchClub"
+import GetClubReportsReducer from "./clubs/GetReports"
 export default configureStore({
   reducer: {
     MakeSub: SubReducer,
@@ -61,5 +62,6 @@ export default configureStore({
     AddSub: AddSubReducer,
     GetPLayer: GetPLayerReducer,
     SearchClub: SearchClubReducer,
+    GetClubReports: GetClubReportsReducer,
   },
 });
