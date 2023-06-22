@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Cookies from "universal-cookie";
 import { LoginHandler } from "../../apis/auth/Login";
 import { useNavigate } from "react-router-dom";
+import { CircularProgress } from "@mui/material";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -49,7 +50,7 @@ function Login() {
           setError("كلمه المرور غير صحيحه");
           break;
         case 500:
-          setError("يوحد خطأ في السيرفر");
+          setError("يوجد خطأ في السيرفر");
           break;
         default:
           setError("");
@@ -103,6 +104,7 @@ function Login() {
                 </div>
                 <div className="flex flex-row items-center justify-center">
                   <input
+                    minLength={6}
                     name="password"
                     value={values.password}
                     required
@@ -120,7 +122,7 @@ function Login() {
                 </div>
               </div>
               <button id="submit" type="submit">
-                <span>دخول</span>
+                <span>{state.loading ? <CircularProgress size={30} sx={{color: 'white'}} /> : "دخول"}</span>
               </button>
             </form>
           )}

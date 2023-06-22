@@ -52,9 +52,14 @@ const AddClub = () => {
       if (res.payload.status)
         if (res.payload.status === 200) {
           window.location.reload();
-        } else {
-          setError("هناك خطأ");
+        } else if (res.payload.status === 409) {
+          setError("يوجد نادي بهذه البيانات");
         }
+        else if (res.status === 500) {
+          setError("يوجد خطأ");
+        } else if (res.payload.status === 400) {
+          setError("يوجد خطأ في البيانات التي ادخلتها")
+      }
     });
   };
 
@@ -207,11 +212,13 @@ const AddClub = () => {
                 <span className="text-xl text-right">كلمه السر </span>
                 <div className="flex justify-around gap-x-5">
                   <input
+                    minLength={6}
                     name="password"
                     value={values.password}
                     onChange={handleChange}
                     onChangeCapture={(e) => setPassword(e.target.value)}
                     type="password"
+                    placeholder="(كلمه المرور (لا تقل عن 6"
                     className=" w-full px-5 py-2 border-2 border-black rounded-lg"
                   />
                 </div>
@@ -253,6 +260,7 @@ const AddClub = () => {
                 onChange={handleChange}
                 onChangeCapture={(e) => setCommission(e.target.value)}
                 type="number"
+                placeholder=" %"  
                 className="w-52  resize-none border-2 border-black py-2 text-lg "
               />
             </div>

@@ -11,10 +11,11 @@ const Clubs = () => {
   const [results, setResults] = useState([]);
   const [clubs, setClubs] = useState([]);
   const [filter, setFilter] = useState([]);
-  const [data, setSortedData] = useState();
+  const [sortedData, setSortedData] = useState();
   const [nearbyResults, setNearbyResults] = useState([]);
   const stateClubs = useSelector((state) => state.GetClubs);
   const stateSearch = useSelector((state) => state.SearchName);
+  const stateNearby = useSelector (state => state.NearbyClubsName)
   const lat = localStorage.getItem("lat");
   const long = localStorage.getItem("long");
   useEffect(() => {
@@ -42,14 +43,24 @@ const Clubs = () => {
     const option = event.target.value;
     setFilter(option);
     switch (option) {
-      case 'الاحدث':
-        setSortedData([...clubs].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
+      case "الاحدث":
+        setResults([]);
+        setClubs(
+          [...clubs].sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          )
+        );
         break;
-      case 'الاقدم':
-        setSortedData([...clubs].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)));
+      case "الاقدم":
+        setResults([]);
+        setClubs(
+          [...clubs].sort(
+            (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+          )
+        );
         break;
       default:
-        setSortedData(clubs);
+        setClubs(clubs);
         break;
     }
   };
@@ -57,6 +68,7 @@ const Clubs = () => {
     dispatch(NearbyClubsHandler({ lat, long })).then((res) => {
       if (res.payload.data) {
         setClubs([]);
+        setNearbyResults([]);
         setResults([]);
         setNearbyResults(res.payload.data.Clubs);
       } else {
@@ -64,12 +76,16 @@ const Clubs = () => {
       }
     });
   };
-  console.log(data)
   return (
     <>
       <div className="flex flex-row p-5 md:justify-around justify-between items-center">
         <div className=" md:flex-1 flex-2 flex gap-5 items-center justify-center">
-          <select value={filter} onChange={handleSort} className="text-xl border-2 border-gray-500  text-black px-3 py-1 rounded-xl flex items-center text-right ">
+          <select
+            value={filter}
+            onChange={handleSort}
+            className="text-xl border-2 border-gray-500  text-black px-3 py-1 rounded-xl flex items-center text-right "
+          >
+            <option defaultChecked>فلتر</option>
             <option>الاحدث</option>
             <option>الاقدم</option>
             <option>سنوي</option>
@@ -81,10 +97,10 @@ const Clubs = () => {
             onClick={() => handleLocation()}
           />
         </div>
-        {stateClubs.loading ? (
+        {stateClubs.loading || stateSearch.loading || stateNearby.loading ? (
           <Backdrop
             sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-            open={stateClubs.loading}
+            open={stateClubs.loading || stateSearch.loading || stateNearby.loading}
           >
             <CircularProgress color="inherit" />
           </Backdrop>
