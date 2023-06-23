@@ -37,76 +37,10 @@ import { useDispatch } from "react-redux";
 import { GetRulesHandler } from "./apis/rules";
 import Success from "./pages/Success";
 import Cancel from "./pages/Cancel";
+import Privacy from "./pages/Admin/Privacy";
 
 function App() {
   const dispatch = useDispatch();
-  const clubsData = [
-    {
-      id: 1,
-      name: "حسن جسمك",
-      des: "وصف النادي وصف النادي وصف النادي",
-    },
-    {
-      id: 2,
-      name: "هامر جيم ",
-      des: "وصف النادي وصف النادي وصف النادي",
-    },
-    {
-      id: 3,
-      name: "جيم البطولة",
-      des: "وصف النادي وصف النادي وصف النادي",
-    },
-    {
-      id: 4,
-      name: "تراي جيم",
-      des: "وصف النادي وصف النادي وصف النادي",
-    },
-    {
-      id: 5,
-      name: "حسن جسمك",
-      des: "وصف النادي وصف النادي وصف النادي",
-    },
-    {
-      id: 6,
-      name: "حسن جسمك",
-      des: "وصف النادي وصف النادي وصف النادي",
-    },
-    {
-      id: 7,
-      name: "حسن جسمك",
-      des: "وصف النادي وصف النادي وصف النادي",
-    },
-    {
-      id: 8,
-      name: "حسن جسمك",
-      des: "وصف النادي وصف النادي وصف النادي",
-    },
-    {
-      id: 9,
-      name: "حسن جسمك",
-      des: "وصف النادي وصف النادي وصف النادي",
-    },
-    {
-      id: 10,
-      name: "حسن جسمك",
-      des: "وصف النادي وصف النادي وصف النادي",
-    },
-    {
-      id: 11,
-      name: "حسن جسمك",
-      des: "وصف النادي وصف النادي وصف النادي",
-    },
-    {
-      id: 12,
-      name: "حسن جسمك",
-      des: "وصف النادي وصف النادي وصف النادي",
-    },
-    {
-      id: 13,
-      name: "حسن جسمك",
-      des: "وصف النادي وصف النادي وصف النادي",
-    },
-  ];
   const [active, setActive] = useState("");
   const [activeBar, setActiveBar] = useState("/");
   const cookies = new Cookies();
@@ -195,7 +129,7 @@ function App() {
 
         <Route
           path="/subscribe/:club_id"
-          element={<ClubSub clubsData={clubsData} />}
+          element={<ClubSub  />}
         />
         <Route path="/contact_us" element={<ContactUs />} />
         <Route path="/about_us" element={<AboutUs />} />
@@ -204,17 +138,18 @@ function App() {
         <Route path="/admin/add_club" element={<AddClub />} />
         <Route
           path="/admin/edit_club/:id"
-          element={<EditClub clubsData={clubsData} />}
+          element={<EditClub  />}
         />
         <Route
           path="/admin/clubs"
-          element={<AllClubs clubsData={clubsData} />}
+          element={<AllClubs  />}
         />
         {cookies.get("_auth_token") &&
         cookies.get("_auth_role") === "65100109105110" ? (
           <>
             <Route path="/admin/imgs" element={<Img />} />
             <Route path="/admin/uses" element={<Uses />} />
+            <Route path="/admin/privacy" element={<Privacy />} />
             <Route path="/admin/socail" element={<Socail />} />
             <Route path="/admin/payments" element={<Payments />} />
             <Route path="/admin/reports" element={<Reports />} />
@@ -228,7 +163,7 @@ function App() {
           <>
             <Route
               path="/club/edit"
-              element={<EditPersonalClub clubsData={clubsData} />}
+              element={<EditPersonalClub />}
             />
             <Route path="/club/report" element={<ClubReport />} />
             <Route path="/club/subscribe" element={<AddSubscribes />} />

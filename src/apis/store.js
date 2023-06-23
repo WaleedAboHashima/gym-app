@@ -30,6 +30,7 @@ import GetPLayerReducer from "./clubs/GetPlayer"
 import SearchClubReducer from "./user/SearchClub"
 import GetClubReportsReducer from "./clubs/GetReports"
 import DeleteQuestionReducer from "./admin/DeleteQuestion"
+import ChangePrivacyReducer from "./admin/ChangePrivacy"
 export default configureStore({
   reducer: {
     MakeSub: SubReducer,
@@ -54,6 +55,7 @@ export default configureStore({
     ChangeIcon: ChangeIconReducer,
     ChangeLogo: ChangeLogoReducer,
     ChangeSocials: ChangeSocialsReducer,
+    ChangePrivacy: ChangePrivacyReducer,
     ChangeContact: ChangeContactReducer,
     Complaints: ComplaintsReducer,
     Paypal: PaypalReducer,
