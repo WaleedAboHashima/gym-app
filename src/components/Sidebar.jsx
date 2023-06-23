@@ -15,6 +15,7 @@ const Sidebar = () => {
     else if (window.location.pathname === "/admin/payments") setActiveSide("payments")
     else if (window.location.pathname === "/admin/socail") setActiveSide("socail")
     else if (window.location.pathname === "/admin/privacy") setActiveSide("privacy")
+    else if (window.location.pathname === "/admin/wallet") setActiveSide("wallet")
     else if (window.location.pathname === "/admin/questions") setActiveSide("questions")
     else if (window.location.pathname === "/admin/complaints") setActiveSide("complaints")
   },[])
@@ -31,6 +32,7 @@ const Sidebar = () => {
           <span className={`lg:text-3xl md:text-xl text-lg  w-full text-right  hover:bg-neutral-400 cursor-pointer px-3 py-2 ${activeSide ==="imgs" ? "bg-white text-black  transition-all " :"text-white"}`}  onClick={()=>window.location.pathname="/admin/imgs"}>التحكم  بالصور</span>
           <span className={`lg:text-3xl md:text-xl text-lg  w-full text-right  hover:bg-neutral-400 cursor-pointer px-3 py-2 ${activeSide ==="uses" ? "bg-white text-black  transition-all " :"text-white"}`} onClick={()=>window.location.pathname="/admin/uses"}>التحكم في سياسة الاستخدام</span>
           <span className={`lg:text-3xl md:text-xl text-lg  w-full text-right  hover:bg-neutral-400 cursor-pointer px-3 py-2 ${activeSide ==="privacy" ? "bg-white text-black  transition-all " :"text-white"}`} onClick={()=>window.location.pathname="/admin/privacy"}>التحكم في الخصوصية</span>
+          <span className={`lg:text-3xl md:text-xl text-lg  w-full text-right  hover:bg-neutral-400 cursor-pointer px-3 py-2 ${activeSide ==="wallet" ? "bg-white text-black  transition-all " :"text-white"}`} onClick={()=>window.location.pathname="/admin/wallet"}>وصف محفظه التطبيق  </span>
         <span className={`lg:text-3xl md:text-xl text-lg  w-full text-right  hover:bg-neutral-400 cursor-pointer px-3 py-2 ${activeSide ==="socail" ? "bg-white text-black  transition-all " :"text-white"}`} onClick={()=>window.location.pathname="/admin/socail"}>التحكم في مواقع التواصل</span>
         <span className={`lg:text-3xl md:text-xl text-lg  w-full text-right  hover:bg-neutral-400 cursor-pointer px-3 py-2 ${activeSide ==="payments" ? "bg-white text-black  transition-all " :"text-white"}`} onClick={()=>window.location.pathname="/admin/payments"}>التحكم في   السداد </span>
           <span className={`lg:text-3xl md:text-xl text-lg  w-full text-right  hover:bg-neutral-400 cursor-pointer px-3 py-2 ${activeSide ==="reports" ? "bg-white text-black  transition-all " :"text-white"}`}onClick={()=>window.location.pathname="/admin/reports"}> تقارير النوادي</span>

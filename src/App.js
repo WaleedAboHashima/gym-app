@@ -38,6 +38,7 @@ import { GetRulesHandler } from "./apis/rules";
 import Success from "./pages/Success";
 import Cancel from "./pages/Cancel";
 import Privacy from "./pages/Admin/Privacy";
+import Wallet from "./pages/Admin/Wallet";
 
 function App() {
   const dispatch = useDispatch();
@@ -150,6 +151,7 @@ function App() {
             <Route path="/admin/imgs" element={<Img />} />
             <Route path="/admin/uses" element={<Uses />} />
             <Route path="/admin/privacy" element={<Privacy />} />
+            <Route path="/admin/wallet" element={<Wallet />} />
             <Route path="/admin/socail" element={<Socail />} />
             <Route path="/admin/payments" element={<Payments />} />
             <Route path="/admin/reports" element={<Reports />} />
