@@ -306,6 +306,20 @@ const Navbar = ({
                       }}
                     >
                       التحكم في سياسة الاستخدام
+                        </li>
+                        <li
+                      className={`cursor-pointer text-xl  hover:bg-white hover:text-black  p-3 ${
+                        activeBar === "contactUs"
+                          ? "bg-white text-black "
+                          : "text-white"
+                      }`}
+                      onClick={() => {
+                        navigate("/admin/privacy");
+                        setBar(false);
+                        checkActive();
+                      }}
+                    >
+                      التحكم في سياسة الخصوصيه
                     </li>
                     <li
                       className={`cursor-pointer text-xl  hover:bg-white hover:text-black  p-3 ${
